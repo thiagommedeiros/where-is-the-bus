@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb-base", "eslint:recommended", "plugin:react/recommended"],
+  "rules": {
+    "semi": [2, "never"],
+    "comma-dangle": [2, "never"],
+    "arrow-parens": ["error", "as-needed"],
+    "space-before-function-paren": [2, "always"],
+    "no-unused-expressions": ["error", {
+      "allowShortCircuit": true,
+      "allowTernary": true
+    }],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
+  }
+}
