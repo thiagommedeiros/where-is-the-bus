@@ -9,8 +9,11 @@
     "url": "git+https://github.com/thiagommedeiros/myBus.git"
   },
   "dependencies": {
+    "material-ui": "^0.17.4",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-google-maps": "^6.3.0",
+    "sptrans-promise": "^1.0.5"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
