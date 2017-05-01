@@ -13,9 +13,6 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={AppContainer}>
         <IndexRoute component={Home} />
-        <Route
-          path="home"
-          component={Home} />
       </Route>
     </Router>
   </Provider>,
