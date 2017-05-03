@@ -21,7 +21,8 @@ class Map extends Component {
     window.map = new GMaps({
       div: '#map',
       lat,
-      lng
+      lng,
+      disableDefaultUI: true
     })
   }
 
@@ -53,7 +54,7 @@ class Map extends Component {
   render () {
     return (
       <div>
-        <div id="map" style={{height: '500px'}}></div>
+        <div id="map" style={{height: window.innerHeight - 64}}></div>
       </div>
     )
   }
