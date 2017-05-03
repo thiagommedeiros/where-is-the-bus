@@ -9,6 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import { AppContainer } from './containers'
 import { history, store } from './store'
 import { Home } from './screens'
+import './assets/css/styles.css'
 
 injectTapEventPlugin()
 
