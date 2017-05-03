@@ -1,9 +1,10 @@
 import React from 'react'
+import { HeaderBar } from '../components'
 
 const Home = () => (
   <div>
-    <h1>myBys</h1>
+    <HeaderBar />
   </div>
 )
 
-export default Home 
+export default Home
