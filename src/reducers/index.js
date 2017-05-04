@@ -1,5 +1,5 @@
-import someReducer from './someReducer'
+import sptransState from './sptransReducer'
 
 export default {
-  someReducer
+  sptransState
 }

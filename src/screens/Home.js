@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
-import { HeaderBar, Map } from '../components'
+import { connect } from 'react-redux'
+
+import { Map, SearchBox } from '../components'
 import { geolocation } from '../helpers'
 
 class Home extends Component {
 
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       lat: 0,
       lng: 0
     }
   }
 
-  componentWillMount () {    
+  componentWillMount () {
     geolocation().then(pos => {
       this.setState({
         lat: pos.coords.latitude,
@@ -24,7 +26,7 @@ class Home extends Component {
   render () {
     return (
       <div>
-        <HeaderBar />
+        <SearchBox />
         <Map
           lat={this.state.lat}
           lng={this.state.lng}
@@ -34,4 +36,8 @@ class Home extends Component {
   }
 }
 
-export default Home
+const mapStateToProps = state => ({
+  auth: state.sptransState.auth
+})
+
+export default connect(mapStateToProps)(Home)

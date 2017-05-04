@@ -54,7 +54,7 @@ class Map extends Component {
   render () {
     return (
       <div>
-        <div id="map" style={{height: window.innerHeight - 64}}></div>
+        <div id="map" style={{height: window.innerHeight}}></div>
       </div>
     )
   }

@@ -1,2 +1,2 @@
 export { default as Map } from './Map'
-export { default as HeaderBar } from './HeaderBar'
+export { default as SearchBox } from './SearchBox'

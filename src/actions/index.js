@@ -1,0 +1,1 @@
+export { sptransAuth } from './sptransAuth'
