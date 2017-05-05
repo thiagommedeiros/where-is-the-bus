@@ -24,7 +24,7 @@
     "redux-logger": "^3.0.1",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
-    "sptrans-promise": "^1.0.5"
+    "sptrans-promise": "^1.0.6"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",

@@ -4863,9 +4863,9 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
 
-sptrans-promise@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/sptrans-promise/-/sptrans-promise-1.0.5.tgz#a7c396642c4c966a9c96c65ee3d526e229c88668"
+sptrans-promise@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/sptrans-promise/-/sptrans-promise-1.0.6.tgz#da00aec1c33ee010afb1f96487a7937a9532cb57"
   dependencies:
     axios "^0.16.0"
     babel-runtime "^6.23.0"
