@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Paper from 'material-ui/Paper'
 
-import { Map, SearchBox } from '../components'
+import { Map } from '../components'
+import { SearchBoxContainer } from '../containers'
 import { geolocation } from '../helpers'
 
 class Home extends Component {
@@ -10,7 +12,17 @@ class Home extends Component {
     super(props)
     this.state = {
       lat: 0,
-      lng: 0
+      lng: 0,
+      paperStyle: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: '-24px',
+        marginLeft: '0',
+        padding: '0 15px',
+        width: '80%',
+        zIndex: '1'
+      }
     }
   }
 
@@ -23,10 +35,23 @@ class Home extends Component {
     })
   }
 
+  componentDidMount () {
+    const paperWidth = document.querySelector('#paper').offsetWidth
+    const marginLeft = {
+      marginLeft: -(paperWidth / 2)
+    }
+    const paperStyle = Object.assign({}, this.state.paperStyle, marginLeft)
+    this.setState({ paperStyle })
+  }
+
   render () {
     return (
       <div>
-        <SearchBox />
+        <Paper id='paper' style={this.state.paperStyle} zDepth={3}>
+          <SearchBoxContainer
+            inputPlaceholder="Qual ônibus deseja encontrar?"
+          />
+        </Paper>
         <Map
           lat={this.state.lat}
           lng={this.state.lng}
