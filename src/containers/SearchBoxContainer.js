@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
+import sptrans from 'sptrans-promise'
 
 import { SearchBox } from '../components'
 import { removeAccents } from '../helpers'
@@ -16,22 +16,26 @@ class SearchBoxContainer extends Component {
   }
 
   componentWillMount () {
-    //temporary until sptrans-promise adds find by trips
-    axios.get('https://sptrans-server.herokuapp.com/trips')
-    .then(res => {
-      const buses = res.data.map(item => ({
+    const updateBuses = (data) => {
+      const buildData = item => ({
         text: `${item.route_id} - ${item.trip_headsign}`,
         value: item.shape_id
-      }))
-
+      })
+      const buses = data.map(buildData)
       this.setState({ buses })
-    })
+    }
+
+    const config = {
+      auth: this.props.auth,
+      tipo: 'linhas',
+      termosBusca: '*'
+    }
+
+    sptrans.find(config).then(updateBuses)
   }
 
   handleUpdateInput (searchText) {
-    this.setState({
-      searchText
-    })
+    this.setState({ searchText })
   }
 
   filterBuses (searchText, key) {
