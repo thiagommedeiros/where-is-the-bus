@@ -1,21 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-const AppContainer = ({ children, location }) => (
-  <ReactCSSTransitionGroup
-    transitionName="page-transition"
-    transitionAppear={true}
-    transitionAppearTimeout={50}
-    transitionLeave={false}
-    transitionEnterTimeout={300}>
-      { React.cloneElement(children, { key: location.pathname }) }
-  </ReactCSSTransitionGroup>
+import { Loader } from '../components'
+
+const AppContainer = ({ children }) => (
+  <MuiThemeProvider>
+    <main>
+      <Loader />
+      {children}
+    </main>
+  </MuiThemeProvider>
 )
-
-AppContainer.propTypes = {
-  children: PropTypes.string,
-  location: PropTypes.string
-}
 
 export default AppContainer

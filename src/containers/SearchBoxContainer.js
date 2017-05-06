@@ -15,23 +15,26 @@ class SearchBoxContainer extends Component {
     }
   }
 
-  componentWillMount () {
-    const updateBuses = (data) => {
-      const buildData = item => ({
-        text: `${item.route_id} - ${item.trip_headsign}`,
-        value: item.shape_id
-      })
-      const buses = data.map(buildData)
-      this.setState({ buses })
-    }
+  componentWillReceiveProps (props) {
+    if(props.auth) this.getBusesLines(props.auth)
+  }
 
-    const config = {
-      auth: this.props.auth,
+  getBusesLines (auth) {
+    const options = {
+      auth,
       tipo: 'linhas',
       termosBusca: '*'
     }
+    sptrans.find(options).then(() => this.updateBusesLines)
+  }
 
-    sptrans.find(config).then(updateBuses)
+  updateBusesLines (data) {
+    const buildData = item => ({
+      text: `${item.route_id} - ${item.trip_headsign}`,
+      value: item.shape_id
+    })
+    const buses = data.map(buildData)
+    this.setState({ buses })
   }
 
   handleUpdateInput (searchText) {
