@@ -1,10 +1,21 @@
 import React, { Component } from 'react'
-import GMaps from '../../assets/js/gmaps'
-import mapStyle from './mapStyle'
+import {
+  buildMap,
+  buildMarkers
+} from './builders'
 
 class Map extends Component {
+
+  constructor () {
+    super()
+    this.state = {
+      mapHeight: 0
+    }
+  }
+
   componentDidMount () {
     this.parseProps(this.props)
+    window.onresize = () => this.updateMapHeight()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -12,49 +23,20 @@ class Map extends Component {
   }
 
   parseProps (props) {
-    if (props.lat && props.lng) this.buildMap(props.lat, props.lng)
-    if (props.markers) this.buildMarkers(props.markers)
+    if (props.lat && props.lng) buildMap(props.lat, props.lng)
+    if (props.markers) buildMarkers(props.markers)
   }
 
-  buildMap (lat, lng) {
-    window.map = new GMaps({
-      div: '#map',
-      lat,
-      lng,
-      disableDefaultUI: true,
-      styles: mapStyle
-    })
-  }
-
-  buildMarkers (markers) {
-    markers.forEach(marker => {
-      window.map.addMarker({
-        lat: marker.lat,
-        lng: marker.lng
-      })
-    })
-  }
-
-  buildPolyline (data) {
-    const path = data.map(pos => {
-      return [
-        pos.lat,
-        pos.lon
-      ]
-    })
-
-    window.map.drawPolyline({
-      path,
-      strokeColor: '#131540',
-      strokeOpacity: 0.6,
-      strokeWeight: 6
+  updateMapHeight () {
+    this.setState({
+      mapHeight: window.innerHeight
     })
   }
 
   render () {
     return (
       <div>
-        <div id="map" style={{height: window.innerHeight}}></div>
+        <div id="map" style={{height: this.state.mapHeight}}></div>
       </div>
     )
   }
