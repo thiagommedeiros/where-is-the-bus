@@ -15,7 +15,12 @@ class Map extends Component {
 
   componentDidMount () {
     this.parseProps(this.props)
-    window.onresize = () => this.updateMapHeight()
+    window.addEventListener('resize', () => this.updateMapHeight())
+    this.updateMapHeight()
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', () => this.updateMapHeight())
   }
 
   componentWillReceiveProps (nextProps) {
