@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import GMaps from '../assets/js/gmaps'
+import GMaps from '../../assets/js/gmaps'
+import mapStyle from './mapStyle'
 
 class Map extends Component {
   componentDidMount () {
@@ -20,7 +21,8 @@ class Map extends Component {
       div: '#map',
       lat,
       lng,
-      disableDefaultUI: true
+      disableDefaultUI: true,
+      styles: mapStyle
     })
   }
 
