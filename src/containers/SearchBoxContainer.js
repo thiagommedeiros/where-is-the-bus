@@ -25,7 +25,7 @@ class SearchBoxContainer extends Component {
       tipo: 'linhas',
       termosBusca: '*'
     }
-    sptrans.find(options).then(() => this.updateBusesLines)
+    sptrans.find(options).then(data => this.updateBusesLines(data))
   }
 
   updateBusesLines (data) {
@@ -56,7 +56,7 @@ class SearchBoxContainer extends Component {
         onUpdateInput={searchText => this.handleUpdateInput(searchText)}
         dataSource={this.state.buses}
         filter={this.filterBuses}
-        fullWidth={true}
+        fullWidth={true}        
       />
     )
   }

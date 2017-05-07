@@ -1,5 +1,3 @@
-/*eslint no-undef: 0*/
-
 import React, { Component } from 'react'
 import GMaps from '../assets/js/gmaps'
 
