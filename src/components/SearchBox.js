@@ -10,6 +10,7 @@ const SearchBox = (props) => (
     dataSource={props.dataSource}
     filter={props.filter}
     fullWidth={props.fullWidth}
+    onNewRequest={props.onNewRequest}
   />
 )
 

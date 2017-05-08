@@ -3,20 +3,10 @@ import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import sptrans from 'sptrans-promise'
 
-import { SearchBox } from '../components'
-import { removeAccents } from '../helpers'
+import { SearchBox } from '../../components'
+import { removeAccents } from '../../helpers'
 
-const paperStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  marginTop: '-24px',
-  marginLeft: '0',
-  padding: '0 15px',
-  width: '90%',
-  maxWidth: '700px',
-  zIndex: '1'
-}
+import styles from './SearchBoxContainer.css'
 
 class SearchBoxContainer extends Component {
 
@@ -25,7 +15,7 @@ class SearchBoxContainer extends Component {
     this.state = {
       searchText: '',
       buses: [],
-      paperStyle
+      paperMarginLeft: 0
     }
   }
 
@@ -44,11 +34,8 @@ class SearchBoxContainer extends Component {
 
   updateSearchBoxPosition () {
     const paperWidth = document.querySelector('#paper').offsetWidth
-    const marginLeft = {
-      marginLeft: -(paperWidth / 2)
-    }
-    const paperStyle = Object.assign({}, this.state.paperStyle, marginLeft)
-    this.setState({ paperStyle })
+    const paperMarginLeft = -(paperWidth / 2)
+    this.setState({ paperMarginLeft })
   }
 
   getBusesLines (auth) {
@@ -79,9 +66,20 @@ class SearchBoxContainer extends Component {
     return text !== '' && buses.indexOf(text) !== -1
   }
 
+  classNames () {
+    return [
+      styles.paper,
+      this.props.hidden ? styles.hidden : ''
+    ].join(' ')
+  }
+
   render () {
     return (
-      <Paper id='paper' style={this.state.paperStyle} zDepth={3}>
+      <Paper
+        id="paper"
+        className={this.classNames()}
+        style={{marginLeft: this.state.paperMarginLeft}}
+        zDepth={3}>
         <SearchBox
           hintText={this.props.inputPlaceholder}
           searchText={this.state.searchText}
@@ -90,6 +88,7 @@ class SearchBoxContainer extends Component {
           dataSource={this.state.buses}
           filter={this.filterBuses}
           fullWidth={true}
+          onNewRequest={this.props.onNewRequest}
         />
       </Paper>
     )

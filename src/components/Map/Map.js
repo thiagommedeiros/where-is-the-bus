@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {
   buildMap,
-  buildMarkers
+  buildMarkers,
+  buildPolyline
 } from './builders'
 
 class Map extends Component {
@@ -30,12 +31,11 @@ class Map extends Component {
   parseProps (props) {
     if (props.lat && props.lng) buildMap(props.lat, props.lng)
     if (props.markers) buildMarkers(props.markers)
+    if (props.polyline) buildPolyline(props.polyline)
   }
 
   updateMapHeight () {
-    this.setState({
-      mapHeight: window.innerHeight
-    })
+    this.setState({ mapHeight: window.innerHeight })
   }
 
   render () {

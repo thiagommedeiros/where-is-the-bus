@@ -20,18 +20,14 @@ export function buildMarkers (markers) {
   })
 }
 
-export function buildPolyline (data) {
-  const path = data.map(pos => {
-    return [
-      pos.lat,
-      pos.lon
-    ]
-  })
-
-  window.map.drawPolyline({
-    path,
-    strokeColor: '#131540',
-    strokeOpacity: 0.6,
-    strokeWeight: 6
-  })
+export function buildPolyline (path) {
+  if (path.length) {
+    buildMap(path[0][0], path[0][1])    
+    window.map.drawPolyline({
+      path,
+      strokeColor: '#131540',
+      strokeOpacity: 0.6,
+      strokeWeight: 6
+    })
+  }
 }

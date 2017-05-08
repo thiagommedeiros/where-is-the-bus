@@ -1,0 +1,16 @@
+.paper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -24px;
+  padding: 0 15px;
+  width: 90%;
+  max-width: 700px;
+  z-index: 1;
+  transition: visibility 0.8s, opacity 0.3s linear;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
