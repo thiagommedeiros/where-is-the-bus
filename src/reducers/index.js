@@ -1,7 +1,11 @@
-import sptransState from './sptransReducer'
-import loaderState from './loaderReducer'
+import sptransState from './sptrans'
+import loaderState from './loader'
+import mapState from './map'
+import searchBoxState from './searchBox'
 
 export default {
   sptransState,
-  loaderState
+  loaderState,
+  mapState,
+  searchBoxState
 }

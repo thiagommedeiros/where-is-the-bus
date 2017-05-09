@@ -8,6 +8,7 @@ const SearchBox = (props) => (
     maxSearchResults={props.maxSearchResults}
     onUpdateInput={props.onUpdateInput}
     dataSource={props.dataSource}
+    dataSourceConfig={props.dataSourceConfig}
     filter={props.filter}
     fullWidth={props.fullWidth}
     onNewRequest={props.onNewRequest}

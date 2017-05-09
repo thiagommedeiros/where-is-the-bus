@@ -12,22 +12,25 @@ export function buildMap (lat, lng) {
 }
 
 export function buildMarkers (markers) {
-  markers.forEach(marker => {
-    window.map.addMarker({
-      lat: marker.lat,
-      lng: marker.lng
+  if (markers.length) {
+    markers.forEach(marker => {
+      window.map.addMarker({
+        lat: marker.lat,
+        lng: marker.lng
+      })
     })
-  })
+  }
 }
 
 export function buildPolyline (path) {
   if (path.length) {
-    buildMap(path[0][0], path[0][1])    
+    const middle = Math.round(path.length / 2)
+    window.map.setCenter(path[middle][0], path[middle][1])
     window.map.drawPolyline({
       path,
-      strokeColor: '#131540',
+      strokeColor: '#00bcd4',
       strokeOpacity: 0.6,
-      strokeWeight: 6
+      strokeWeight: 5
     })
   }
 }

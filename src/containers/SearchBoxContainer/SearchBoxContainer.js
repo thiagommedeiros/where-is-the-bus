@@ -5,9 +5,16 @@ import sptrans from 'sptrans-promise'
 
 import { SearchBox } from '../../components'
 import { removeAccents } from '../../helpers'
-import { loader } from '../../actions'
+import { loader, updateSearchBox } from '../../actions'
 
 import styles from './SearchBoxContainer.css'
+
+const dataSourceConfig = {
+  text: 'text',
+  value: 'shapeId',
+  routeId: 'routeId',
+  directionId: 'directionId'
+}
 
 class SearchBoxContainer extends Component {
 
@@ -21,7 +28,9 @@ class SearchBoxContainer extends Component {
   }
 
   componentWillReceiveProps (props) {
-    if(props.auth) this.getBusesLines(props.auth)
+    if(props.auth && !props.searchBoxState.autocompleteData.length) {
+      this.updateAutocompleteData(props.auth)
+    }
   }
 
   componentDidMount () {
@@ -49,17 +58,21 @@ class SearchBoxContainer extends Component {
       tipo: 'linhas',
       termosBusca: '*'
     }
-    sptrans.find(options).then(data => this.updateBusesLines(data))
+    return sptrans.find(options).then(data => data)
   }
 
-  updateBusesLines (data) {
-    const buildData = item => ({
-      text: `${item.route_id} - ${item.trip_headsign}`,
-      value: item.shape_id
+  updateAutocompleteData (auth) {
+    this.getBusesLines(auth).then(data => {
+      const buildData = item => ({
+        text: `${item.route_id} - ${item.trip_headsign}`,
+        shapeId: item.shape_id,
+        routeId: item.route_id,
+        directionId: item.direction_id
+      })
+      const autocompleteData = data.map(buildData)
+      this.props.updateSearchBox({ autocompleteData })
+      this.props.loader({ visible: false })
     })
-    const buses = data.map(buildData)
-    this.setState({ buses })
-    this.props.loader({ visible: false })
   }
 
   handleUpdateInput (searchText) {
@@ -75,7 +88,7 @@ class SearchBoxContainer extends Component {
   classNames () {
     return [
       styles.paper,
-      this.props.hidden ? styles.hidden : ''
+      !this.props.visible ? styles.hidden : ''
     ].join(' ')
   }
 
@@ -91,7 +104,8 @@ class SearchBoxContainer extends Component {
           searchText={this.state.searchText}
           maxSearchResults={5}
           onUpdateInput={searchText => this.handleUpdateInput(searchText)}
-          dataSource={this.state.buses}
+          dataSource={this.props.searchBoxState.autocompleteData}
+          dataSourceConfig={dataSourceConfig}
           filter={this.filterBuses}
           fullWidth={true}
           onNewRequest={this.props.onNewRequest}
@@ -102,11 +116,13 @@ class SearchBoxContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.sptransState.auth
+  auth: state.sptransState.auth,
+  searchBoxState: state.searchBoxState
 })
 
 const mapDispatchToProps = dispatch => ({
-  loader: payload => dispatch(loader(payload))
+  loader: payload => dispatch(loader(payload)),
+  updateSearchBox: payload => dispatch(updateSearchBox(payload))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBoxContainer)
