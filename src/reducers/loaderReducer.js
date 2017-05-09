@@ -1,19 +1,16 @@
-import { SHOW_LOADER, HIDE_LOADER } from '../constants/actionTypes'
+import { LOADER } from '../constants/actionTypes'
 
 const defaultState = {
-  visible: false
+  visible: false,
+  text: ''
 }
 
 const loaderReducer = (state = defaultState, action = {}) => {
   switch (action.type) {
-    case SHOW_LOADER:
+    case LOADER:
       return Object.assign({}, state, {
-        visible: true
-      })
-
-    case HIDE_LOADER:
-      return Object.assign({}, state, {
-        visible: false
+        visible: action.payload.visible,
+        text: action.payload.text || ''
       })
 
     default:

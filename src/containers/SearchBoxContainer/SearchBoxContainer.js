@@ -5,6 +5,7 @@ import sptrans from 'sptrans-promise'
 
 import { SearchBox } from '../../components'
 import { removeAccents } from '../../helpers'
+import { loader } from '../../actions'
 
 import styles from './SearchBoxContainer.css'
 
@@ -39,6 +40,10 @@ class SearchBoxContainer extends Component {
   }
 
   getBusesLines (auth) {
+    this.props.loader({
+      visible: true,
+      text: 'Obtendo linhas...'
+    })
     const options = {
       auth,
       tipo: 'linhas',
@@ -54,6 +59,7 @@ class SearchBoxContainer extends Component {
     })
     const buses = data.map(buildData)
     this.setState({ buses })
+    this.props.loader({ visible: false })
   }
 
   handleUpdateInput (searchText) {
@@ -99,4 +105,8 @@ const mapStateToProps = state => ({
   auth: state.sptransState.auth
 })
 
-export default connect(mapStateToProps)(SearchBoxContainer)
+const mapDispatchToProps = dispatch => ({
+  loader: payload => dispatch(loader(payload))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBoxContainer)

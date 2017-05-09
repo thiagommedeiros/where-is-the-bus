@@ -4,15 +4,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import styles from './Loader.css'
 
-const spinStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  marginLeft: '-30px',
-  marginTop: '-30px'
-}
-
-const Loader = ({ visible }) => {
+const Loader = ({ visible, text }) => {
 
   const classNames = () => {
     return [
@@ -23,17 +15,20 @@ const Loader = ({ visible }) => {
 
   return (
     <div className={classNames()} style={{height: window.innerHeight}}>
-      <CircularProgress
-        style={spinStyle}
-        size={60}
-        thickness={11}
-      />
+      <div className={styles.spin}>
+        <CircularProgress
+          size={60}
+          thickness={11}
+        />
+        <span className={styles.text}>{text}</span>
+      </div>
     </div>
   )
 }
 
 const mapStateToProps = state => ({
-  visible: state.loaderState.visible
+  visible: state.loaderState.visible,
+  text: state.loaderState.text
 })
 
 export default connect(mapStateToProps)(Loader)

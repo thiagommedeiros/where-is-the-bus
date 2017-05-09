@@ -1,3 +1,2 @@
 export const SPTRANS_AUTH = 'SPTRANS_AUTH'
-export const SHOW_LOADER = 'SHOW_LOADER'
-export const HIDE_LOADER = 'HIDE_LOADER'
+export const LOADER = 'LOADER'

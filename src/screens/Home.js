@@ -5,6 +5,7 @@ import sptrans from 'sptrans-promise'
 import { Map, Menu } from '../components'
 import { SearchBoxContainer } from '../containers'
 import { geolocation } from '../helpers'
+import { loader } from '../actions'
 
 class Home extends Component {
 
@@ -28,6 +29,10 @@ class Home extends Component {
   }
 
   handleSearchBoxChoice (choice) {
+    this.props.loader({
+      visible: true,
+      text: 'Montando trajeto...'
+    })
     const options = {
       auth: this.props.auth,
       tipo: 'trajeto',
@@ -47,6 +52,7 @@ class Home extends Component {
       polylinePaths: path,
       searchBoxHidden: true
     })
+    this.props.loader({ visible: false })
   }
 
   render () {
@@ -72,4 +78,8 @@ const mapStateToProps = state => ({
   auth: state.sptransState.auth
 })
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = dispatch => ({
+  loader: payload => dispatch(loader(payload))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
