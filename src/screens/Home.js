@@ -4,7 +4,8 @@ import sptrans from 'sptrans-promise'
 
 import { Menu } from '../components'
 import { MapContainer, SearchBoxContainer } from '../containers'
-import { loader, updateMap, updateSearchBox } from '../actions'
+import { loader, updateSearchBox } from '../actions'
+import { buildMarkers, buildPolyline } from '../helpers'
 
 function Home (props) {
 
@@ -49,18 +50,52 @@ function Home (props) {
     }))
   }
 
-  const buildRoute = data => {
+  const buildUserMarkers = data => {
+    const first = data.path[0]
+    const last = data.path[data.path.length-1]
+    const markers = [{
+      lat: Number(first.shape_pt_lat),
+      lng: Number(first.shape_pt_lon),
+      icon: 'flagStart'
+    },
+    {
+      lat: Number(last.shape_pt_lat),
+      lng: Number(last.shape_pt_lon),
+      icon: 'flagFinish'
+    }]
+    buildMarkers(markers)
+    return data
+  }
+
+  const buildVehiclesPosition = data => {
     const markers = data.vehiclesPosition.map(pos => ({
       lat: pos.py,
-      lng: pos.px
+      lng: pos.px,
+      icon: 'bus'
     }))
+    buildMarkers(markers)
+    return data
+  }
+
+  const buildRoute = data => {
     const polyline = data.path.map(pos => ([
       pos.shape_pt_lat,
       pos.shape_pt_lon
     ]))
-    props.updateMap({ markers, polyline })
+    buildPolyline(polyline)
     props.updateSearchBox({ visible: false })
     props.loader({ visible: false })
+    return data
+  }
+
+  const refreshVehiclesPosition = data => {
+    setTimeout(() => {
+      Promise.resolve(data)
+      .then(getVehicles)
+      .then(buildVehiclesPosition)
+      .then(buildUserMarkers)
+      .then(refreshVehiclesPosition)
+    }, 15000)
   }
 
   const handleSearchBoxChoice = choice => {
@@ -68,9 +103,13 @@ function Home (props) {
     .then(getRoutePath)
     .then(getLineCode)
     .then(getVehicles)
+    .then(buildVehiclesPosition)
     .then(buildRoute)
+    .then(buildUserMarkers)
+    .then(refreshVehiclesPosition)
     .catch(err => {
       //TODO: tratar erro
+      console.log(err)
       props.loader({ visible: false })
     })
   }
@@ -96,7 +135,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loader: payload => dispatch(loader(payload)),
-  updateMap: payload => dispatch(updateMap(payload)),
   updateSearchBox: payload => dispatch(updateSearchBox(payload))
 })
 

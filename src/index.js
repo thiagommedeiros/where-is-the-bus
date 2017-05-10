@@ -9,7 +9,7 @@ import { sptransAuth, loader, updateMap } from './actions'
 import { AppContainer, SearchBoxContainer } from './containers'
 import { history, store } from './store'
 import { Home } from './screens'
-import { geolocation } from './helpers'
+import { geolocation, buildMap } from './helpers'
 import './assets/css/styles.css'
 
 injectTapEventPlugin()
@@ -27,10 +27,7 @@ sptrans.auth(TOKEN).then(auth => {
 
 //TODO: tratar erro geolocation
 geolocation().then(pos => {
-  store.dispatch(updateMap({
-    lat: pos.coords.latitude,
-    lng: pos.coords.longitude
-  }))
+  buildMap(pos.coords.latitude, pos.coords.longitude)
 }).catch(console.log)
 
 ReactDOM.render(

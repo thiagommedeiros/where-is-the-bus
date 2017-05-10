@@ -8,7 +8,7 @@ class MapContainer extends Component {
 
   componentDidMount () {
     window.addEventListener('resize', () => this.updateMapHeight())
-    this.updateMapHeight()    
+    this.updateMapHeight()
   }
 
   componentWillUnmount () {
@@ -21,13 +21,7 @@ class MapContainer extends Component {
 
   render () {
     return (
-      <Map
-        height={this.props.mapState.mapHeight}
-        lat={this.props.mapState.lat}
-        lng={this.props.mapState.lng}
-        markers={this.props.mapState.markers}
-        polyline={this.props.mapState.polyline}
-      />
+      <Map height={this.props.mapState.mapHeight} />
     )
   }
 }
