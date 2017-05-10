@@ -8,6 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/thiagommedeiros/myBus.git"
   },
+  "homepage": ".",
   "dependencies": {
     "axios": "^0.16.1",
     "material-ui": "^0.18.0",
@@ -51,6 +52,7 @@
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.10.0",
     "fs-extra": "0.30.0",
+    "gh-pages": "^1.0.0",
     "html-webpack-plugin": "2.24.0",
     "http-proxy-middleware": "0.17.3",
     "jest": "18.1.0",
@@ -69,7 +71,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "deploy": "yarn run build && gh-pages -d build"
   },
   "jest": {
     "collectCoverageFrom": [
