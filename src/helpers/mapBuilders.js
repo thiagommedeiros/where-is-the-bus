@@ -16,9 +16,11 @@ export function buildMap (lat, lng) {
   })
 }
 
-export function buildMarkers (markers) {
+export function buildMarkers (markers, remove=false) {
   if (markers.length) {
-    window.map.removeMarkers()
+    if (remove) {
+      window.map.removeMarkers()
+    }
     markers.forEach(marker => {
       let icon
       if (marker.icon === 'bus') icon = bus

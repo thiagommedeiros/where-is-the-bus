@@ -73,7 +73,7 @@ function Home (props) {
       lng: pos.px,
       icon: 'bus'
     }))
-    buildMarkers(markers)
+    buildMarkers(markers, true)
     return data
   }
 
@@ -104,8 +104,8 @@ function Home (props) {
     .then(getLineCode)
     .then(getVehicles)
     .then(buildVehiclesPosition)
-    .then(buildRoute)
     .then(buildUserMarkers)
+    .then(buildRoute)
     .then(refreshVehiclesPosition)
     .catch(err => {
       //TODO: tratar erro
@@ -129,7 +129,6 @@ function Home (props) {
 
 const mapStateToProps = state => ({
   auth: state.sptransState.auth,
-  mapState: state.mapState,
   searchBoxState: state.searchBoxState
 })
 

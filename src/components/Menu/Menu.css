@@ -1,0 +1,19 @@
+.menuButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.searchButton {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  z-index: 1;
+  transition: visibility 0.8s, opacity 0.3s linear;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
