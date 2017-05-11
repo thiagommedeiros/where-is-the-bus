@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
-import SearchIcon from 'material-ui/svg-icons/action/search'
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'
 import MenuItem from 'material-ui/MenuItem'
 import Drawer from 'material-ui/Drawer'
 
-import { updateSearchBox } from '../../actions'
 import styles from './Menu.css'
 
 class Menu extends Component {
@@ -25,16 +23,12 @@ class Menu extends Component {
     })
   }
 
-  openSearchBox () {
-    this.props.updateSearchBox({ visible: true })
-  }
-
   classNames (el) {
     switch (el) {
-      case 'searchButton':
+      case 'refreshButton':
         return [
-          styles.searchButton,
-          this.props.searchBoxState.visible ? styles.hidden : ''
+          styles.refreshButton,
+          // !this.props.mapState.markers.length ? styles.hidden : ''
         ].join(' ')
 
       default:
@@ -59,22 +53,14 @@ class Menu extends Component {
         </Drawer>
         <FloatingActionButton
           mini={true}
-          className={this.classNames('searchButton')}
+          className={this.classNames('refreshButton')}
           backgroundColor='#ccc'
-          onTouchTap={() => this.openSearchBox() }>
-          <SearchIcon />
+          onTouchTap={() => {}}>
+          <RefreshIcon />
         </FloatingActionButton>
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  searchBoxState: state.searchBoxState
-})
-
-const mapDispatchToProps = dispatch => ({
-  updateSearchBox: payload => dispatch(updateSearchBox(payload))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Menu)
+export default Menu

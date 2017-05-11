@@ -37,6 +37,7 @@ export function buildMarkers (markers, remove=false) {
 
 export function buildPolyline (path) {
   if (path.length) {
+    window.map.removePolylines()
     const middle = Math.round(path.length / 2)
     window.map.setCenter(path[middle][0], path[middle][1])
     window.map.drawPolyline({

@@ -23,7 +23,7 @@ class SearchBoxContainer extends Component {
     this.state = {
       searchText: '',
       buses: [],
-      paperMarginLeft: 0
+      paperWidth: 0
     }
   }
 
@@ -43,9 +43,8 @@ class SearchBoxContainer extends Component {
   }
 
   updateSearchBoxPosition () {
-    const paperWidth = document.querySelector('#paper').offsetWidth
-    const paperMarginLeft = -(paperWidth / 2)
-    this.setState({ paperMarginLeft })
+    const paperWidth = window.innerWidth - 90
+    this.setState({ paperWidth })
   }
 
   getBusesLines (auth) {
@@ -85,30 +84,26 @@ class SearchBoxContainer extends Component {
     return text !== '' && buses.indexOf(text) !== -1
   }
 
-  classNames () {
-    return [
-      styles.paper,
-      !this.props.visible ? styles.hidden : ''
-    ].join(' ')
-  }
-
   render () {
     return (
       <Paper
         id="paper"
-        className={this.classNames()}
-        style={{marginLeft: this.state.paperMarginLeft}}
+        className={styles.paper}
+        style={{width: this.state.paperWidth}}
         zDepth={3}>
         <SearchBox
           hintText={this.props.inputPlaceholder}
           searchText={this.state.searchText}
-          maxSearchResults={5}
+          maxSearchResults={10}
           onUpdateInput={searchText => this.handleUpdateInput(searchText)}
           dataSource={this.props.searchBoxState.autocompleteData}
           dataSourceConfig={dataSourceConfig}
           filter={this.filterBuses}
           fullWidth={true}
-          onNewRequest={this.props.onNewRequest}
+          onNewRequest={choice => {
+            this.setState({ searchText: '' })
+            this.props.onNewRequest(choice)
+          }}
         />
       </Paper>
     )

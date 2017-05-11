@@ -14,7 +14,7 @@ const Loader = ({ visible, text }) => {
   }
 
   return (
-    <div className={classNames()} style={{height: window.innerHeight}}>
+    <div className={classNames()}>
       <div className={styles.spin}>
         <CircularProgress
           size={60}

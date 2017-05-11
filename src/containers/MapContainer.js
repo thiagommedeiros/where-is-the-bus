@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-
 import { Map } from '../components'
-import { updateMap } from '../actions'
 
 class MapContainer extends Component {
+
+  constructor () {
+    super()
+    this.state = {
+      mapHeight: 0
+    }
+  }
 
   componentDidMount () {
     window.addEventListener('resize', () => this.updateMapHeight())
@@ -16,22 +20,14 @@ class MapContainer extends Component {
   }
 
   updateMapHeight () {
-    this.props.updateMap({ mapHeight: window.innerHeight })
+    this.setState({ mapHeight: window.innerHeight })
   }
 
   render () {
     return (
-      <Map height={this.props.mapState.mapHeight} />
+      <Map height={this.state.mapHeight} />
     )
   }
 }
 
-const mapStateToProps = state => ({
-  mapState: state.mapState
-})
-
-const mapDispatchToProps = dispatch => ({
-  updateMap: payload => dispatch(updateMap(payload))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(MapContainer)
+export default MapContainer

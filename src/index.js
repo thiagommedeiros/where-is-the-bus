@@ -28,7 +28,10 @@ sptrans.auth(TOKEN).then(auth => {
 //TODO: tratar erro geolocation
 geolocation().then(pos => {
   buildMap(pos.coords.latitude, pos.coords.longitude)
-}).catch(console.log)
+}).catch(err => {
+  console.log(err)
+  buildMap(-23.4830182, -46.7462071)
+})
 
 ReactDOM.render(
   <Provider store={store}>

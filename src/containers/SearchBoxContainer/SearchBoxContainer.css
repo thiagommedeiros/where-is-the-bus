@@ -1,11 +1,9 @@
 .paper {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -24px;
+  top: 15px;
+  right: 15px;
   padding: 0 15px;
-  width: 90%;
-  max-width: 700px;
+  min-width: 200px;
   z-index: 1;
   transition: visibility 0.8s, opacity 0.3s linear;
 }
