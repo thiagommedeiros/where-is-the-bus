@@ -1,4 +1,4 @@
-.wrapper {
+.bigSpin {
   position: absolute;
   top: 0;
   left: 0;
@@ -10,8 +10,7 @@
   visibility: visible;
   transition: visibility 0.8s, opacity 0.3s linear;
 }
-
-.spin {
+.bigSpin .spinner {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -20,8 +19,7 @@
   margin-left: -100px;
   margin-top: -70px;
 }
-
-.text {
+.bigSpin .text {
   margin-top: 20px;
   display: block;
   font-family: Roboto, sans-serif;
@@ -29,6 +27,21 @@
   color: #00bcd4;
 }
 
+.smallSpin {
+  position: absolute;
+  top: 80px;
+  right: 15px;
+  z-index: 1200;
+}
+
+.small .bigSpin {
+  opacity: 0;
+  visibility: hidden;
+}
+.big .smallSpin {
+  opacity: 0;
+  visibility: hidden;
+}
 .hidden {
   opacity: 0;
   visibility: hidden;
