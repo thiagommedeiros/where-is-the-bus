@@ -87,7 +87,12 @@ function Home (props) {
   }
 
   const refreshVehiclesPosition = data => {
+    props.loader({ visible: false })
     setTimeout(() => {
+      props.loader({
+        visible: true,
+        spin: 'small'
+      })
       Promise.resolve(data)
       .then(getVehicles)
       .then(buildVehiclesPosition)
