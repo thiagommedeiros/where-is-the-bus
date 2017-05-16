@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import sptrans from 'sptrans-promise'
 
-import { Menu } from '../components'
-import { MapContainer, SearchBoxContainer } from '../containers'
+import { HeaderBar, SearchBox, Map } from '../containers'
 import { loader, updateSearchBox } from '../actions'
 import { buildMarkers, buildPolyline } from '../helpers'
 
@@ -50,7 +49,7 @@ function Home (props) {
     }))
   }
 
-  const buildUserMarkers = data => {
+  const buildFlagMarkers = data => {
     const first = data.path[0]
     const last = data.path[data.path.length-1]
     const markers = [{
@@ -93,7 +92,7 @@ function Home (props) {
       Promise.resolve(data)
       .then(getVehicles)
       .then(buildVehiclesPosition)
-      .then(buildUserMarkers)
+      .then(buildFlagMarkers)
       .then(refreshVehiclesPosition)
     }, 15000)
   }
@@ -104,7 +103,7 @@ function Home (props) {
     .then(getLineCode)
     .then(getVehicles)
     .then(buildVehiclesPosition)
-    .then(buildUserMarkers)
+    .then(buildFlagMarkers)
     .then(buildRoute)
     .then(refreshVehiclesPosition)
     .catch(err => {
@@ -116,13 +115,13 @@ function Home (props) {
 
   return (
     <div>
-      <Menu />
-      <SearchBoxContainer
-        inputPlaceholder="Qual ônibus deseja encontrar?"
-        onNewRequest={choice => handleSearchBoxChoice(choice) }
-        visible={props.searchBoxState.visible}
-      />
-      <MapContainer />
+      <HeaderBar>
+        <SearchBox
+          inputPlaceholder="Qual ônibus deseja encontrar?"
+          onNewRequest={choice => handleSearchBoxChoice(choice) }
+          visible={props.searchBoxState.visible} />
+      </HeaderBar>
+      <Map />
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-import { Loader } from '../components'
+import { Loader } from './'
 
-const AppContainer = ({ children }) => (
+const App = ({ children }) => (
   <MuiThemeProvider>
     <main>
       <Loader />
@@ -12,4 +12,4 @@ const AppContainer = ({ children }) => (
   </MuiThemeProvider>
 )
 
-export default AppContainer
+export default App

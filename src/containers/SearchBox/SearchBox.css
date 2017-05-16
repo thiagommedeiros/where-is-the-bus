@@ -1,0 +1,10 @@
+.searchBox {
+  top: 7px;
+  overflow: hidden;
+  background-color: #FFF !important;
+}
+
+.searchBox > div,
+.searchBox input {
+  margin-left: 15px
+}

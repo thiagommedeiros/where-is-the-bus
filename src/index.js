@@ -5,8 +5,8 @@ import { Router, Route, IndexRoute } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import sptrans from 'sptrans-promise'
 
-import { sptransAuth, loader, updateMap } from './actions'
-import { AppContainer, SearchBoxContainer } from './containers'
+import { sptransAuth, loader } from './actions'
+import { App } from './containers'
 import { history, store } from './store'
 import { Home } from './screens'
 import { geolocation, buildMap } from './helpers'
@@ -25,20 +25,19 @@ sptrans.auth(TOKEN).then(auth => {
   store.dispatch(sptransAuth(auth))
 })
 
-//TODO: tratar erro geolocation
 geolocation().then(pos => {
   buildMap(pos.coords.latitude, pos.coords.longitude)
 }).catch(err => {
-  console.log(err)
+  //TODO: tratar erro geolocation
+  alert('Erro ao obter localização.')
   buildMap(-23.4830182, -46.7462071)
 })
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={AppContainer}>
+      <Route path="/" component={App}>
         <IndexRoute component={Home} />
-        <Route path="blz" component={SearchBoxContainer} />
       </Route>
     </Router>
   </Provider>,

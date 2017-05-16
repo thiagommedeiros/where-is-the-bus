@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Map } from '../components'
 
-class MapContainer extends Component {
+class Map extends Component {
 
   constructor () {
     super()
@@ -20,14 +19,14 @@ class MapContainer extends Component {
   }
 
   updateMapHeight () {
-    this.setState({ mapHeight: window.innerHeight })
+    this.setState({ mapHeight: window.innerHeight - 64 })
   }
 
   render () {
     return (
-      <Map height={this.state.mapHeight} />
+      <div id="map" style={{height: this.state.mapHeight}}></div>
     )
   }
 }
 
-export default MapContainer
+export default Map

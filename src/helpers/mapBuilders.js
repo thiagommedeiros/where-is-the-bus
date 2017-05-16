@@ -12,7 +12,7 @@ export function buildMap (lat, lng) {
     lng,
     styles: mapStyle,
     disableDefaultUI: true,
-    zoom: 15
+    zoom: 14
   })
 }
 
