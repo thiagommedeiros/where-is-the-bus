@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import sptrans from 'sptrans-promise'
 
 import { HeaderBar, SearchBox, Map } from '../containers'
-import { loader, updateSearchBox } from '../actions'
+import { loader } from '../actions'
 import { buildMarkers, buildPolyline } from '../helpers'
 
 function Home (props) {
@@ -82,7 +82,6 @@ function Home (props) {
       pos.shape_pt_lon
     ]))
     buildPolyline(polyline)
-    props.updateSearchBox({ visible: false })
     props.loader({ visible: false })
     return data
   }
@@ -119,7 +118,7 @@ function Home (props) {
         <SearchBox
           inputPlaceholder="Qual ônibus deseja encontrar?"
           onNewRequest={choice => handleSearchBoxChoice(choice) }
-          visible={props.searchBoxState.visible} />
+        />
       </HeaderBar>
       <Map />
     </div>
@@ -128,12 +127,10 @@ function Home (props) {
 
 const mapStateToProps = state => ({
   auth: state.sptransState.auth,
-  searchBoxState: state.searchBoxState
 })
 
 const mapDispatchToProps = dispatch => ({
-  loader: payload => dispatch(loader(payload)),
-  updateSearchBox: payload => dispatch(updateSearchBox(payload))
+  loader: payload => dispatch(loader(payload))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
