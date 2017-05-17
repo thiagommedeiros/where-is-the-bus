@@ -1,15 +1,23 @@
 import GMaps from '../assets/js/gmaps'
 import mapStyle from '../assets/js/mapStyle'
 
+import user from '../assets/img/user.png'
 import bus from '../assets/img/bus-icon3.png'
 import flagStart from '../assets/img/flag-start.png'
 import flagFinish from '../assets/img/flag-finish.png'
 
+const markerIcons = {
+  user,
+  bus,
+  flagStart,
+  flagFinish
+}
+
 export function buildMap (lat, lng) {
   window.map = new GMaps({
     div: '#map',
-    lat,
-    lng,
+    lat: Number(lat),
+    lng: Number(lng),
     styles: mapStyle,
     disableDefaultUI: true,
     zoom: 14
@@ -22,14 +30,10 @@ export function buildMarkers (markers, remove=false) {
       window.map.removeMarkers()
     }
     markers.forEach(marker => {
-      let icon
-      if (marker.icon === 'bus') icon = bus
-      if (marker.icon === 'flagStart') icon = flagStart
-      if (marker.icon === 'flagFinish') icon = flagFinish
       window.map.addMarker({
-        lat: marker.lat,
-        lng: marker.lng,
-        icon
+        lat: Number(marker.lat),
+        lng: Number(marker.lng),
+        icon: markerIcons[marker.icon]
       })
     })
   }

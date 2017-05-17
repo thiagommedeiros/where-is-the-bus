@@ -13,6 +13,7 @@ export function buildRoutePath (choice) {
   .then(getVehicles)
   .then(buildVehiclesPosition)
   .then(buildFlagMarkers)
+  .then(buildUserMarker)
   .then(buildRoute)
   .then(updateSearchBoxState)
   .then(startRefresh)
@@ -71,16 +72,27 @@ function buildFlagMarkers (data) {
   const first = data.path[0]
   const last = data.path[data.path.length-1]
   const markers = [{
-    lat: Number(first.shape_pt_lat),
-    lng: Number(first.shape_pt_lon),
+    lat: first.shape_pt_lat,
+    lng: first.shape_pt_lon,
     icon: 'flagStart'
   },
   {
-    lat: Number(last.shape_pt_lat),
-    lng: Number(last.shape_pt_lon),
+    lat: last.shape_pt_lat,
+    lng: last.shape_pt_lon,
     icon: 'flagFinish'
   }]
   buildMarkers(markers)
+  return data
+}
+
+function buildUserMarker (data) {
+  const pos = store.getState().userState.geolocation
+  const marker = [{
+    lat: pos.lat,
+    lng: pos.lng,
+    icon: 'user'
+  }]
+  buildMarkers(marker)
   return data
 }
 
@@ -134,6 +146,7 @@ function startRefresh (data) {
     .then(getVehicles)
     .then(buildVehiclesPosition)
     .then(buildFlagMarkers)
+    .then(buildUserMarker)
     .then(updateSearchBoxState)
     .then(startRefresh)
   }, time)
