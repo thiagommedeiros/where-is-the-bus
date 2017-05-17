@@ -3,15 +3,25 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import sptrans from 'sptrans-promise'
 
 import { Loader } from './'
-import { sptransAuth, loader, updateSearchBox } from '../actions'
-import { geolocation, buildMap } from '../utils'
 import { store } from '../store'
+import {
+  geolocation,
+  buildMap,
+  buildMarkers
+} from '../utils'
+import {
+  sptransAuth,
+  loader,
+  updateSearchBox,
+  updateGeolocation
+} from '../actions'
 
 const TOKEN = '1e7c20905fe86990c5227e7e9f00002fe908d4d4dd4d7c0091032dacd2d0e07d'
 
 Promise.resolve(TOKEN)
   .then(authSPTrans)
   .then(getGeolocation)
+  .then(buildUserMarker)
   .then(getAllLines)
   .then(buildAutocomplete)
 
@@ -28,8 +38,22 @@ async function authSPTrans () {
 
 async function getGeolocation (auth) {
   const pos = await geolocation().catch(console.log)
-  buildMap(pos.coords.latitude, pos.coords.longitude)
-  return auth
+  const lat = pos.coords.latitude
+  const lng = pos.coords.longitude
+
+  buildMap(lat, lng)
+  store.dispatch(updateGeolocation({ lat, lng }))
+  return { auth, lat, lng }
+}
+
+async function buildUserMarker (data) {
+  const markers = [{
+    lat: Number(data.lat),
+    lng: Number(data.lng),
+    icon: 'user'
+  }]
+  buildMarkers(markers)
+  return data.auth
 }
 
 async function getAllLines (auth) {
