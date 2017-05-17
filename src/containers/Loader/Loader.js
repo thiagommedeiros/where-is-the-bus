@@ -27,7 +27,7 @@ const Loader = ({ visible, spin, text }) => {
       <div className={styles.smallSpin}>
         <CircularProgress
           size={40}
-          thickness={8}
+          thickness={8}          
         />
       </div>
     </div>

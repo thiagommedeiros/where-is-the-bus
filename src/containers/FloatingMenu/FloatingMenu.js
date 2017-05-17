@@ -1,19 +1,20 @@
 import React from 'react'
-
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'
 
-const FloatingMenu = props => (
-  <div>
+import { refresh } from '../../utils'
+import styles from './FloatingMenu.css'
+
+function FloatingMenu () {
+  return (
     <FloatingActionButton
+      className={styles.refreshButton}
       mini={true}
-      className="refreshButton"
       backgroundColor="#ccc"
-      onTouchTap={() => {}}>
+      onTouchTap={() => refresh()}>
       <RefreshIcon />
     </FloatingActionButton>
-  </div>
-)
-
+  )
+}
 
 export default FloatingMenu

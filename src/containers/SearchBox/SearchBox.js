@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { AutoComplete } from 'material-ui'
 
-import { removeAccents } from '../../helpers'
+import { removeAccents } from '../../utils'
 import styles from './SearchBox.css'
 
 const dataSourceConfig = {

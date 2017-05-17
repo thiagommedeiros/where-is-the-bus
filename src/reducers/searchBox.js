@@ -1,7 +1,8 @@
 import { UPDATE_SEARCHBOX } from '../constants/actionTypes'
 
 const defaultState = {
-  autocompleteData: []
+  autocompleteData: [],
+  searchState: {}
 }
 
 const searchBoxReducer = (state = defaultState, action = {}) => {
@@ -9,7 +10,8 @@ const searchBoxReducer = (state = defaultState, action = {}) => {
     case UPDATE_SEARCHBOX:
       const payload = action.payload
       return Object.assign({}, state, {
-        autocompleteData: payload.autocompleteData || state.autocompleteData
+        autocompleteData: payload.autocompleteData || state.autocompleteData,
+        searchState: payload.searchState || state.searchState
       })
 
     default:

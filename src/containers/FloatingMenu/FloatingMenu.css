@@ -1,0 +1,9 @@
+.refreshButton {
+  position: absolute;
+  top: 80px;
+  right: 15px;
+}
+
+.hidden {
+  display: none
+}

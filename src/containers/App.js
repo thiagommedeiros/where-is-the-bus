@@ -4,7 +4,7 @@ import sptrans from 'sptrans-promise'
 
 import { Loader } from './'
 import { sptransAuth, loader, updateSearchBox } from '../actions'
-import { geolocation, buildMap } from '../helpers'
+import { geolocation, buildMap } from '../utils'
 import { store } from '../store'
 
 const TOKEN = '1e7c20905fe86990c5227e7e9f00002fe908d4d4dd4d7c0091032dacd2d0e07d'
