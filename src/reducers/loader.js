@@ -2,7 +2,7 @@ import { LOADER } from '../constants/actionTypes'
 
 const defaultState = {
   visible: false,
-  spin: 'big',
+  spin: '',
   text: ''
 }
 

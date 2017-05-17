@@ -11,6 +11,7 @@ function Home (props) {
   const getRoutePath = choice => {
     props.loader({
       visible: true,
+      spin: 'big',
       text: 'Montando trajeto...'
     })
     return sptrans.find({
@@ -23,6 +24,7 @@ function Home (props) {
   const getLineCode = data => {
     props.loader({
       visible: true,
+      spin: 'big',
       text: 'Obtendo posição dos veículos...'
     })
     return sptrans.find({
@@ -88,7 +90,7 @@ function Home (props) {
 
   const refreshVehiclesPosition = data => {
     props.loader({ visible: false })
-    setTimeout(() => {
+    window.refresh = setTimeout(() => {
       props.loader({
         visible: true,
         spin: 'small'
@@ -102,6 +104,7 @@ function Home (props) {
   }
 
   const handleSearchBoxChoice = choice => {
+    clearTimeout(window.refresh)
     Promise.resolve(choice)
     .then(getRoutePath)
     .then(getLineCode)
