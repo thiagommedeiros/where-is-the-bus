@@ -1,12 +1,12 @@
 {
-  "name": "mybus",
+  "name": "where-is-the-bus",
   "version": "1.0.0",
   "author": "Thiago M. Medeiros",
   "description": "An app to find buses",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thiagommedeiros/myBus.git"
+    "url": "git+https://github.com/thiagommedeiros/where-is-the-bus.git"
   },
   "homepage": ".",
   "dependencies": {
