@@ -138,7 +138,8 @@ function startRouteRefresh (data) {
   }
 
   stopRefresh()
-  store.dispatch(loader({ visible: false }))
+  setTimeout(() =>
+    store.dispatch(loader({ visible: false })), 3000)
 
   window.refresh = setTimeout(() => {
     store.dispatch(loader({ visible: true, spin: 'small' }))

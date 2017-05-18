@@ -64,7 +64,9 @@ export async function centerMap () {
     lat: pos.coords.latitude,
     lng: pos.coords.longitude
   }))
-  window.map.setCenter(pos.coords.latitude, pos.coords.longitude, () => {
-    store.dispatch(loader({ visible: false }))
-  })
+  setTimeout(() =>
+    window.map.setCenter(pos.coords.latitude, pos.coords.longitude, () => {
+      store.dispatch(loader({ visible: false }))
+    })
+  , 2000)
 }
