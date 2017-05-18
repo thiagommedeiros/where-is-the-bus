@@ -1,4 +1,4 @@
-export default (str) => {
+export function removeAccents (str) {
 	const strAccents = str.split('')
 	const strAccentsOut = []
 	const strAccentsLen = strAccents.length

@@ -7,7 +7,6 @@
   z-index: 1200;
   background: rgba(255, 255, 255, 0.9);
   opacity: 1;
-  visibility: visible;
 }
 .bigSpin .spinner {
   position: absolute;
@@ -28,20 +27,17 @@
 
 .smallSpin {
   position: absolute;
-  top: 80px;
+  top: 130px;
   right: 15px;
   z-index: 1200;
 }
 
-.small .bigSpin {
-  opacity: 0;
-  visibility: hidden;
+.smallIsVisible .bigSpin {
+  display: none !important
 }
-.big .smallSpin {
-  opacity: 0;
-  visibility: hidden;
+.bigIsVisible .smallSpin {
+  display: none !important
 }
 .hidden {
-  opacity: 0;
-  visibility: hidden;
+  display: none !important
 }

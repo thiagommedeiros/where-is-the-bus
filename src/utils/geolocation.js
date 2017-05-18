@@ -1,5 +1,5 @@
-export default () =>
-  new Promise((resolve, reject) => {
+export function geolocation () {
+  return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         resolve(position)
@@ -10,3 +10,4 @@ export default () =>
       reject('Geolocation not supported.')
     }
   })
+}

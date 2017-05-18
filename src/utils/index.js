@@ -1,4 +1,12 @@
-export { default as geolocation } from './geolocation'
-export { default as removeAccents } from './removeAccents'
-export { buildRoutePath, refresh } from './routePath'
-export * from './mapBuilders'
+export { geolocation } from './geolocation'
+export { removeAccents } from './removeAccents'
+export {
+  buildRoutePath,
+  refreshRoute
+} from './route'
+export {
+  buildMap,
+  buildMarkers,
+  buildPolyline,
+  centerMap
+} from './map'

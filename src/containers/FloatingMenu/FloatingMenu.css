@@ -1,9 +1,15 @@
-.refreshButton {
+.myLocationButton {
   position: absolute;
   top: 80px;
   right: 15px;
 }
 
-.hidden {
-  display: none
+.refreshButton {
+  position: absolute;
+  top: 130px;
+  right: 15px;
+}
+
+.hideRefreshButton .refreshButton {
+  display: none !important;
 }

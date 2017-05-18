@@ -16,7 +16,7 @@ export function buildRoutePath (choice) {
   .then(buildUserMarker)
   .then(buildRoute)
   .then(updateSearchBoxState)
-  .then(startRefresh)
+  .then(startRouteRefresh)
   .catch(err => {
     //TODO: tratar erro
     console.log(err)
@@ -125,11 +125,11 @@ function stopRefresh () {
   clearTimeout(window.refresh)
 }
 
-export function refresh () {
-  startRefresh()
+export function refreshRoute () {
+  startRouteRefresh()
 }
 
-function startRefresh (data) {
+function startRouteRefresh (data) {
   let time = 15000
 
   if (!data) {
@@ -148,6 +148,6 @@ function startRefresh (data) {
     .then(buildFlagMarkers)
     .then(buildUserMarker)
     .then(updateSearchBoxState)
-    .then(startRefresh)
+    .then(startRouteRefresh)
   }, time)
 }
