@@ -100,7 +100,7 @@ function buildVehiclesPosition (data) {
   const markers = data.vehiclesPosition.map(pos => ({
     lat: pos.py,
     lng: pos.px,
-    icon: 'bus'
+    icon: pos.a === true ? 'busAccessible' : 'bus'
   }))
   buildMarkers(markers, true)
   return data

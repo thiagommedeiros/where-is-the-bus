@@ -2,7 +2,9 @@ import GMaps from '../assets/js/gmaps'
 import mapStyle from '../assets/js/mapStyle'
 
 import user from '../assets/img/user.png'
-import bus from '../assets/img/bus-icon3.png'
+import bus from '../assets/img/bus-icon.png'
+import busStop from '../assets/img/bus-stop.png'
+import busAccessible from '../assets/img/bus-icon-accessible.png'
 import flagStart from '../assets/img/flag-start.png'
 import flagFinish from '../assets/img/flag-finish.png'
 
@@ -13,6 +15,8 @@ import { loader, updateGeolocation } from '../actions'
 const markerIcons = {
   user,
   bus,
+  busStop,
+  busAccessible,
   flagStart,
   flagFinish
 }
