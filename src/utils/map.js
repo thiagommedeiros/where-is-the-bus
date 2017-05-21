@@ -8,9 +8,8 @@ import busAccessible from '../assets/img/bus-icon-accessible.png'
 import flagStart from '../assets/img/flag-start.png'
 import flagFinish from '../assets/img/flag-finish.png'
 
-import { geolocation } from './'
 import { store } from '../store'
-import { loader, updateGeolocation } from '../actions'
+import { loader } from '../actions'
 
 const markerIcons = {
   user,
@@ -62,15 +61,8 @@ export function buildPolyline (path) {
 }
 
 export async function centerMap () {
-  store.dispatch(loader({ visible: true, spin: 'small' }))
-  const pos = await geolocation()
-  store.dispatch(updateGeolocation({
-    lat: pos.coords.latitude,
-    lng: pos.coords.longitude
-  }))
-  setTimeout(() =>
-    window.map.setCenter(pos.coords.latitude, pos.coords.longitude, () => {
-      store.dispatch(loader({ visible: false }))
-    })
-  , 2000)
+  const pos = store.getState().userState.geolocation
+  window.map.setCenter(pos.lat, pos.lng, () => {
+    store.dispatch(loader({ visible: false }))
+  })
 }
