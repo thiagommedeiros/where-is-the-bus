@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { AutoComplete } from 'material-ui'
 
+import { saveState } from '../../actions'
 import { removeAccents } from '../../utils'
 import styles from './SearchBox.css'
 
@@ -31,6 +32,12 @@ class SearchBox extends Component {
     return text !== '' && buses.indexOf(text) !== -1
   }
 
+  onNewRequest (choice) {
+    this.setState({ searchText: '' })
+    this.props.saveState({ choice })
+    this.props.onNewRequest(choice)
+  }
+
   render () {
     return (
       <AutoComplete
@@ -43,10 +50,7 @@ class SearchBox extends Component {
         dataSourceConfig={dataSourceConfig}
         filter={this.filterBuses}
         fullWidth={true}
-        onNewRequest={choice => {
-          this.setState({ searchText: '' })
-          this.props.onNewRequest(choice)
-        }}
+        onNewRequest={choice => this.onNewRequest(choice)}
       />
     )
   }
@@ -56,4 +60,8 @@ const mapStateToProps = state => ({
   searchBoxState: state.searchBoxState
 })
 
-export default connect(mapStateToProps)(SearchBox)
+const mapDispatchToProps = dispatch => ({
+  saveState: choice => dispatch(saveState(choice))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBox)
