@@ -9,7 +9,8 @@ import flagStart from '../assets/img/flag-start.png'
 import flagFinish from '../assets/img/flag-finish.png'
 
 import { store } from '../store'
-import { loader } from '../actions'
+import { updateGeolocation } from '../actions'
+import { geolocation } from './'
 
 const markerIcons = {
   user,
@@ -20,14 +21,14 @@ const markerIcons = {
   flagFinish
 }
 
-export function buildMap (lat, lng) {
+export function buildMap (lat, lng, zoom=13) {
   window.map = new GMaps({
     div: '#map',
     lat: Number(lat),
     lng: Number(lng),
     styles: mapStyle,
     disableDefaultUI: true,
-    zoom: 14
+    zoom
   })
 }
 
@@ -63,6 +64,14 @@ export function buildPolyline (path) {
 export async function centerMap () {
   const pos = store.getState().userState.geolocation
   window.map.setCenter(pos.lat, pos.lng, () => {
-    store.dispatch(loader({ visible: false }))
+    geolocation().then(geo => {
+      if (geo.coords.latitude !== pos.lat && geo.coords.longitude !== pos.lng) {
+        store.dispatch(updateGeolocation({
+          lat: geo.coords.latitude,
+          lng: geo.coords.longitude
+        }))
+        centerMap()
+      }
+    })
   })
 }
