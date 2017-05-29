@@ -23,6 +23,7 @@ class HeaderBar extends Component {
     return (
       <div>
         <AppBar
+          style={{height: '64px'}}
           onLeftIconButtonTouchTap={() => this.openDrawer()}>
           {this.props.children}
         </AppBar>
