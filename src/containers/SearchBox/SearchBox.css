@@ -8,3 +8,12 @@
 .searchBox input {
   margin-left: 15px
 }
+
+.recentSearches {
+  width: 100%;
+  background-color: #FFF;
+}
+
+.hidden {
+  display: none !important;
+}

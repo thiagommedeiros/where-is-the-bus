@@ -4,7 +4,7 @@ import { buildRoutePath } from '../utils'
 
 function Home (props) {
   return (
-    <div>
+    <section>
       <HeaderBar>
         <SearchBox
           inputPlaceholder="Qual ônibus deseja encontrar?"
@@ -13,7 +13,7 @@ function Home (props) {
       </HeaderBar>
       <FloatingMenu />
       <Map />
-    </div>
+    </section>
   )
 }
 

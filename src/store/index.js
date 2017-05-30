@@ -7,7 +7,9 @@ import { createLogger } from 'redux-logger'
 import promise from 'redux-promise'
 import reducers from '../reducers'
 
-const logger = createLogger()
+const logger = createLogger({
+  collapsed: true
+})
 
 export const store = createStore(
   combineReducers({
