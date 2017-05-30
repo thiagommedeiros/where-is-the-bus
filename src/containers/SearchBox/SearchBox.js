@@ -19,21 +19,15 @@ class SearchBox extends Component {
     super(props)
     this.state = {
       searchText: '',
-      recentSearches: [],
       hiddenRecentSearches: true
     }
   }
 
-  componentWillMount () {
-    const searches = this.props.storagedState.searches
-    if (searches) {
-      const recentSearches = searches.map(item => item)
-      this.setState({ recentSearches })
-    }
-  }
-
   handleUpdateInput (searchText) {
-    this.setState({ searchText })
+    this.setState({
+      searchText,
+      hiddenRecentSearches: true
+    })
   }
 
   filterBuses (searchText, key) {
@@ -42,18 +36,18 @@ class SearchBox extends Component {
     return text !== '' && buses.indexOf(text) !== -1
   }
 
-  onNewRequest (choice) {
+  onNewRequest (choice, save=true) {
     this.setState({ searchText: '' })
-    this.props.saveState({ choice })
     this.props.onNewRequest(choice)
+    if (save) this.props.saveState({ choice })
   }
 
   buildRecentSearches () {
-    return this.state.recentSearches.map((item, key) => (
+    return this.props.storagedState.searches.map((item, key) => (
       <ListItem
         key={key}
         primaryText={item.text}
-        onTouchTap={() => this.onNewRequest(item)}
+        onTouchTap={() => this.onNewRequest(item, false)}
       />
     ))
   }
@@ -79,7 +73,11 @@ class SearchBox extends Component {
           filter={this.filterBuses}
           fullWidth={true}
           onNewRequest={choice => this.onNewRequest(choice)}
-          onFocus={() => this.setState({ hiddenRecentSearches: false })}
+          onFocus={() => {
+            if (this.props.storagedState.searches.length) {
+              this.setState({ hiddenRecentSearches: false })
+            }
+          }}
           onBlur={() =>
             setTimeout(() =>
               this.setState({ hiddenRecentSearches: true })

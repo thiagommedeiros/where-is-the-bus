@@ -6,9 +6,19 @@ const defaultState = {
   ...loadStoredState(),
 }
 
+const findByMatchingProperties = (arr, wanted) =>
+	arr.filter(item =>
+		Object.keys(wanted).every(key =>
+			item[key] === wanted[key]
+		)
+  )
+
 const storage = (state = defaultState, action = {}) => {
   switch (action.type) {
     case SAVE_STATE:
+      const alreadyHasValue = findByMatchingProperties(state.searches, action.payload.choice)
+      if (alreadyHasValue.length) return state
+
       const newState = Object.assign({}, state, {
         ...loadStoredState(),
         searches: [action.payload.choice].concat(state.searches)
