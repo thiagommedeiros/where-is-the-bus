@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { AutoComplete, List, ListItem, Subheader } from 'material-ui'
 
-import { saveState } from '../../actions'
+import { saveSearches } from '../../actions'
 import { removeAccents } from '../../utils'
 import styles from './SearchBox.css'
 
@@ -39,11 +39,11 @@ class SearchBox extends Component {
   onNewRequest (choice, save=true) {
     this.setState({ searchText: '' })
     this.props.onNewRequest(choice)
-    if (save) this.props.saveState({ choice })
+    if (save) this.props.saveSearches({ choice })
   }
 
   buildRecentSearches () {
-    return this.props.storagedState.searches.map((item, key) => (
+    return this.props.searchesState.map((item, key) => (
       <ListItem
         key={key}
         primaryText={item.text}
@@ -74,7 +74,7 @@ class SearchBox extends Component {
           fullWidth={true}
           onNewRequest={choice => this.onNewRequest(choice)}
           onFocus={() => {
-            if (this.props.storagedState.searches.length) {
+            if (this.props.searchesState.length) {
               this.setState({ hiddenRecentSearches: false })
             }
           }}
@@ -95,11 +95,11 @@ class SearchBox extends Component {
 
 const mapStateToProps = state => ({
   searchBoxState: state.searchBoxState,
-  storagedState: state.storagedState
+  searchesState: state.storagedState.searches
 })
 
 const mapDispatchToProps = dispatch => ({
-  saveState: choice => dispatch(saveState(choice))
+  saveSearches: choice => dispatch(saveSearches(choice))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBox)

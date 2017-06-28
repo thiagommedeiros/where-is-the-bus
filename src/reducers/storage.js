@@ -1,4 +1,4 @@
-import { SAVE_STATE } from '../constants/actionTypes'
+import { SAVE_SEARCHES } from '../constants/actionTypes'
 import { loadStoredState, updateStoredState } from '../utils'
 
 const defaultState = {
@@ -15,7 +15,7 @@ const findByMatchingProperties = (arr, wanted) =>
 
 const storage = (state = defaultState, action = {}) => {
   switch (action.type) {
-    case SAVE_STATE:
+    case SAVE_SEARCHES:
       const alreadyHasValue = findByMatchingProperties(state.searches, action.payload.choice)
       if (alreadyHasValue.length) return state
 

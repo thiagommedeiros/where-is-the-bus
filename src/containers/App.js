@@ -26,11 +26,6 @@ Promise.resolve(TOKEN)
   .then(buildAutocomplete)
 
 async function authSPTrans () {
-  store.dispatch(loader({
-    visible: true,
-    spin: 'big',
-    text: 'Conectando no serviço da SPTrans...'
-  }))
   const auth = await sptrans.auth(TOKEN)
   store.dispatch(sptransAuth(auth))
   return { auth }
@@ -57,6 +52,8 @@ async function buildUserMarker (data) {
 }
 
 async function getAllLines (auth) {
+  const storagedLines = store.getState().storagedState.lines
+  if (storagedLines) return storagedLines
   const lines = await sptrans.find({
     auth,
     tipo: 'linhas',
