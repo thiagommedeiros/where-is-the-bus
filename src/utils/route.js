@@ -1,67 +1,70 @@
 import bus from 'bus-promise'
 
 import { store } from '../store'
-import { loader, updateSearchBox } from '../actions'
-import { buildMarkers, buildPolyline } from './'
+import { loader, updateSearchBox, saveShape } from '../actions'
+import { centerMap, buildMarkers, buildPolyline } from './'
 
-export function buildRoutePath (choice) {
-  stopRefresh()
+const hasShapeInStorage = (shapeId, storagedShapes) =>
+  storagedShapes.find(item =>
+    item.find(shape => shape.shape_id === shapeId))
 
-  Promise.resolve(choice)
-  .then(getRoutePaths)
-  .then(getLineCode)
-  .then(getVehicles)
-  .then(buildVehiclesPosition)
-  .then(buildFlagMarkers)
-  .then(buildUserMarker)
-  .then(buildRoute)
-  .then(updateSearchBoxState)
-  .then(startRouteRefresh)
-  .catch(err => {
-    //TODO: tratar erro
-    console.log(err)
-    store.dispatch(loader({ visible: false }))
-  })
-}
-
-function getRoutePaths (choice) {
+function getRouteShapes (choice) {
   const auth = store.getState().sptransState.auth
+  const storagedShapes = store.getState().storagedState.shapes
+  const shape = hasShapeInStorage(choice.shapeId, storagedShapes)
+
+  if (shape) {
+    store.dispatch(loader({
+      visible: true,
+      spin: 'big',
+      text: 'Localizando veículos...'
+    }))
+    return { auth, shape, choice }
+  }
+
   store.dispatch(loader({
     visible: true,
     spin: 'big',
-    text: 'Montando trajeto...'
+    text: 'Montando este trajeto pela primeira vez, isso pode levar alguns minutos...'
   }))
+
   return bus.find({
     auth,
     tipo: 'trajeto',
     codigoTrajeto: choice.shapeId
-  }).then(path => ({ auth, path, choice }))
+  }).then(shape => {
+    store.dispatch(saveShape(shape))
+    return { auth, shape, choice }
+  })
 }
 
 function getLineCode (data) {
-  store.dispatch(loader({
-    visible: true,
-    spin: 'big',
-    text: 'Obtendo posição dos veículos...'
-  }))
+  const { auth, shape, choice } = data
+
   return bus.find({
-    auth: data.auth,
+    auth,
     tipo: 'linhas',
-    termosBusca: data.choice.routeId
+    termosBusca: choice.routeId
   }).then(lines => {
-    const line = lines.filter(item => item.Sentido === data.choice.directionId +1)
+    const line = lines.filter(item =>
+      item.Sentido === Number(choice.directionId) +1)
+
     return {
-      ...data,
+      auth,
+      shape,
+      choice,
       lineCode: line[0].CodigoLinha
     }
   })
 }
 
 function getVehicles (data) {
+  const { auth, shape, choice, lineCode } = data
+
   return bus.find({
-    auth: data.auth,
+    auth,
     tipo: 'posicaoVeiculos',
-    codigoLinha: data.lineCode
+    codigoLinha: lineCode
   }).then(res => ({
     ...data,
     vehiclesPosition: res.vs
@@ -69,8 +72,9 @@ function getVehicles (data) {
 }
 
 function buildFlagMarkers (data) {
-  const first = data.path[0]
-  const last = data.path[data.path.length-1]
+  const { auth, shape, choice, lineCode, vehiclesPosition } = data
+  const first = data.shape[0]
+  const last = data.shape[data.shape.length-1]
   const markers = [{
     lat: first.shape_pt_lat,
     lng: first.shape_pt_lon,
@@ -81,7 +85,8 @@ function buildFlagMarkers (data) {
     lng: last.shape_pt_lon,
     icon: 'flagFinish'
   }]
-  buildMarkers(markers)
+  buildMarkers(markers, true)
+
   return data
 }
 
@@ -93,6 +98,7 @@ function buildUserMarker (data) {
     icon: 'user'
   }]
   buildMarkers(marker)
+
   return data
 }
 
@@ -102,22 +108,29 @@ function buildVehiclesPosition (data) {
     lng: pos.px,
     icon: pos.a === true ? 'busAccessible' : 'bus'
   }))
-  buildMarkers(markers, true)
+  buildMarkers(markers)
+
   return data
 }
 
 function buildRoute (data) {
-  const polyline = data.path.map(pos => ([
+  const shape = data.shape.map(pos => ([
     pos.shape_pt_lat,
     pos.shape_pt_lon
   ]))
-  buildPolyline(polyline)
+  buildPolyline(shape)
+
+  const middle = Math.round(shape.length / 2)
+  centerMap(shape[middle][0], shape[middle][1])
+
   store.dispatch(loader({ visible: false }))
+
   return data
 }
 
-function updateSearchBoxState (data) {
+function updateSearchState (data) {
   store.dispatch(updateSearchBox({ searchState: data }))
+
   return data
 }
 
@@ -125,21 +138,15 @@ function stopRefresh () {
   clearTimeout(window.refresh)
 }
 
-export function refreshRoute () {
-  startRouteRefresh()
-}
-
 function startRouteRefresh (data) {
-  let time = 15000
+  const time = !data ? 0 : 15000
 
   if (!data) {
-    time = 0
     data = store.getState().searchBoxState.searchState
   }
 
   stopRefresh()
-  setTimeout(() =>
-    store.dispatch(loader({ visible: false })), 3000)
+  setTimeout(() => store.dispatch(loader({ visible: false })), 1000)
 
   window.refresh = setTimeout(() => {
     store.dispatch(loader({ visible: true, spin: 'small' }))
@@ -148,7 +155,31 @@ function startRouteRefresh (data) {
     .then(buildVehiclesPosition)
     .then(buildFlagMarkers)
     .then(buildUserMarker)
-    .then(updateSearchBoxState)
+    .then(updateSearchState)
     .then(startRouteRefresh)
   }, time)
+}
+
+export function refreshRoute () {
+  startRouteRefresh()
+}
+
+export function buildRoutePath (choice) {
+  stopRefresh()
+
+  Promise.resolve(choice)
+  .then(getRouteShapes)
+  .then(getLineCode)
+  .then(getVehicles)
+  .then(buildVehiclesPosition)
+  .then(buildFlagMarkers)
+  .then(buildUserMarker)
+  .then(buildRoute)
+  .then(updateSearchState)
+  .then(startRouteRefresh)
+  .catch(err => {
+    console.log(err)
+    alert('Ocorreu um erro! Tente novamente.')
+    store.dispatch(loader({ visible: false }))
+  })
 }

@@ -1,6 +1,11 @@
-import { SAVE_SEARCHES } from '../constants/actionTypes'
+import { SAVE_SEARCH, SAVE_SHAPE } from '../constants/actionTypes'
 
-export const saveSearches = payload => ({
-  type: SAVE_SEARCHES,
+export const saveSearch = payload => ({
+  type: SAVE_SEARCH,
+  payload
+})
+
+export const saveShape = payload => ({
+  type: SAVE_SHAPE,
   payload
 })

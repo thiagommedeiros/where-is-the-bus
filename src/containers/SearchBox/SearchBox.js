@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { AutoComplete, List, ListItem, Subheader } from 'material-ui'
 
-import { saveSearches } from '../../actions'
+import { saveSearch } from '../../actions'
 import { removeAccents } from '../../utils'
 import styles from './SearchBox.css'
 
@@ -39,7 +39,7 @@ class SearchBox extends Component {
   onNewRequest (choice, save=true) {
     this.setState({ searchText: '' })
     this.props.onNewRequest(choice)
-    if (save) this.props.saveSearches({ choice })
+    if (save) this.props.saveSearch({ choice })
   }
 
   buildRecentSearches () {
@@ -99,7 +99,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  saveSearches: choice => dispatch(saveSearches(choice))
+  saveSearch: choice => dispatch(saveSearch(choice))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBox)

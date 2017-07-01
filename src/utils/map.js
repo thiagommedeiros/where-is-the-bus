@@ -50,8 +50,6 @@ export function buildMarkers (markers, remove=false) {
 export function buildPolyline (path) {
   if (path.length) {
     window.map.removePolylines()
-    const middle = Math.round(path.length / 2)
-    window.map.setCenter(path[middle][0], path[middle][1])
     window.map.drawPolyline({
       path,
       strokeColor: '#00bcd4',
@@ -61,7 +59,12 @@ export function buildPolyline (path) {
   }
 }
 
-export async function centerMap () {
+export async function centerMap (lat=0, lng=0) {
+  if (lat && lng) {
+    window.map.setCenter(lat, lng)
+    return
+  }
+
   const pos = store.getState().userState.geolocation
   window.map.setCenter(pos.lat, pos.lng, () => {
     geolocation().then(geo => {
