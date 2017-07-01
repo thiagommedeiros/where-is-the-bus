@@ -1,9 +1,11 @@
-import { SAVE_SEARCH, SAVE_SHAPE } from '../constants/actionTypes'
+import { SAVE_SEARCH, SAVE_SHAPE, SAVE_LINES } from '../constants/actionTypes'
+import { SAVE_SEARCHES, SAVE_PATHS,  } from '../constants/actionTypes'
 import { loadStoredState, updateStoredState } from '../utils'
 
 const defaultState = {
   searches: [],
   shapes: [],
+  lines: [],
   ...loadStoredState(),
 }
 
@@ -34,6 +36,19 @@ const storage = (state = defaultState, action = {}) => {
     const newState = Object.assign({}, state, {
       ...loadStoredState(),
       shapes: [action.payload].concat(state.shapes)
+    })
+    window.state = newState
+    updateStoredState(newState)
+    return newState
+  }
+
+  if (action.type === SAVE_LINES) {
+    const alreadyHasValue = findByMatchingProperties(state.lines, action.payload)
+    if (alreadyHasValue.length) return state
+
+    const newState = Object.assign({}, state, {
+      ...loadStoredState(),
+      lines: [action.payload].concat(state.lines)
     })
     window.state = newState
     updateStoredState(newState)

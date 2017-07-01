@@ -13,7 +13,8 @@ import {
   sptransAuth,
   loader,
   updateSearchBox,
-  updateGeolocation
+  updateGeolocation,
+  saveLines
 } from '../actions'
 
 const TOKEN = '1e7c20905fe86990c5227e7e9f00002fe908d4d4dd4d7c0091032dacd2d0e07d'
@@ -35,6 +36,7 @@ async function getGeolocation () {
 
   buildMap(lat, lng)
   store.dispatch(updateGeolocation({ lat, lng }))
+
   return { lat, lng }
 }
 
@@ -50,17 +52,22 @@ async function buildUserMarker ({ lat, lng }) {
 async function authSPTrans () {
   const auth = await bus.auth(TOKEN)
   store.dispatch(sptransAuth(auth))
+
   return { auth }
 }
 
 async function getAllLines ({ auth }) {
   const storagedLines = store.getState().storagedState.lines
-  if (storagedLines) return storagedLines
+  if (storagedLines.length) return storagedLines[0]
+
   const lines = await bus.find({
     auth,
     tipo: 'linhas',
     termosBusca: '*'
   })
+
+  store.dispatch(saveLines(lines))
+
   return lines
 }
 
