@@ -1,4 +1,4 @@
-import sptrans from 'sptrans-promise'
+import bus from 'bus-promise'
 
 import { store } from '../store'
 import { loader, updateSearchBox } from '../actions'
@@ -31,7 +31,7 @@ function getRoutePaths (choice) {
     spin: 'big',
     text: 'Montando trajeto...'
   }))
-  return sptrans.find({
+  return bus.find({
     auth,
     tipo: 'trajeto',
     codigoTrajeto: choice.shapeId
@@ -44,7 +44,7 @@ function getLineCode (data) {
     spin: 'big',
     text: 'Obtendo posição dos veículos...'
   }))
-  return sptrans.find({
+  return bus.find({
     auth: data.auth,
     tipo: 'linhas',
     termosBusca: data.choice.routeId
@@ -58,7 +58,7 @@ function getLineCode (data) {
 }
 
 function getVehicles (data) {
-  return sptrans.find({
+  return bus.find({
     auth: data.auth,
     tipo: 'posicaoVeiculos',
     codigoLinha: data.lineCode

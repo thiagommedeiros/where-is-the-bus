@@ -1007,6 +1007,13 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
+bus-promise@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/bus-promise/-/bus-promise-1.0.8.tgz#178faed277d895cdf87b52f06e8629b643c66ac2"
+  dependencies:
+    axios "^0.16.0"
+    babel-runtime "^6.23.0"
+
 bytes@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.3.0.tgz#d5b680a165b6201739acb611542aabc2d8ceb070"
@@ -4895,13 +4902,6 @@ spdx-license-ids@^1.0.2:
 sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
-
-sptrans-promise@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/sptrans-promise/-/sptrans-promise-1.0.6.tgz#da00aec1c33ee010afb1f96487a7937a9532cb57"
-  dependencies:
-    axios "^0.16.0"
-    babel-runtime "^6.23.0"
 
 sshpk@^1.7.0:
   version "1.13.0"
