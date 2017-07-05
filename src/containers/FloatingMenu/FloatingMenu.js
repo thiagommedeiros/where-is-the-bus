@@ -12,7 +12,7 @@ function FloatingMenu (props) {
   const classNames = () => {
     return [
       props.loader.visible === true && props.loader.spin === 'small' ? styles.hideRefreshButton : '',
-      !props.searchState.path ? styles.hideRefreshButton : ''
+      !props.searchState.shape ? styles.hideRefreshButton : ''
     ].join(' ')
   }
 

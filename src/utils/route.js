@@ -2,7 +2,7 @@ import bus from 'bus-promise'
 
 import { store } from '../store'
 import { loader, updateSearchBox, saveShape } from '../actions'
-import { centerMap, buildMarkers, buildPolyline } from './'
+import { centerMap, buildMarkers, buildPolyline, removeMarkers } from './'
 
 const hasShapeInStorage = (shapeId, storagedShapes) =>
   storagedShapes.find(item =>
@@ -85,7 +85,9 @@ function buildFlagMarkers (data) {
     lng: last.shape_pt_lon,
     icon: 'flagFinish'
   }]
-  buildMarkers(markers, true)
+
+  removeMarkers()
+  buildMarkers(markers)
 
   return data
 }
@@ -152,9 +154,9 @@ function startRouteRefresh (data) {
     store.dispatch(loader({ visible: true, spin: 'small' }))
     Promise.resolve(data)
     .then(getVehicles)
-    .then(buildVehiclesPosition)
     .then(buildFlagMarkers)
     .then(buildUserMarker)
+    .then(buildVehiclesPosition)
     .then(updateSearchState)
     .then(startRouteRefresh)
   }, time)
@@ -171,9 +173,9 @@ export function buildRoutePath (choice) {
   .then(getRouteShapes)
   .then(getLineCode)
   .then(getVehicles)
-  .then(buildVehiclesPosition)
   .then(buildFlagMarkers)
   .then(buildUserMarker)
+  .then(buildVehiclesPosition)
   .then(buildRoute)
   .then(updateSearchState)
   .then(startRouteRefresh)

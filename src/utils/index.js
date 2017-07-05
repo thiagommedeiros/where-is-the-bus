@@ -6,5 +6,6 @@ export {
   buildMap,
   buildMarkers,
   buildPolyline,
-  centerMap
+  centerMap,
+  removeMarkers
 } from './map'

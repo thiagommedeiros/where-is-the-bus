@@ -32,6 +32,10 @@ export function buildMap (lat, lng, zoom=13) {
   })
 }
 
+export function removeMarkers (callback) {
+  return window.map.removeMarkers()
+}
+
 export function buildMarkers (markers, remove=false) {
   if (markers.length) {
     if (remove) {
@@ -47,9 +51,13 @@ export function buildMarkers (markers, remove=false) {
   }
 }
 
+export function removePolylines () {
+  window.map.removePolylines()
+}
+
 export function buildPolyline (path) {
   if (path.length) {
-    window.map.removePolylines()
+    removePolylines()
     window.map.drawPolyline({
       path,
       strokeColor: '#00bcd4',
