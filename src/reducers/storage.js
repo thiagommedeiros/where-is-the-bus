@@ -1,5 +1,4 @@
 import { SAVE_SEARCH, SAVE_SHAPE, SAVE_LINES } from '../constants/actionTypes'
-import { SAVE_SEARCHES, SAVE_PATHS,  } from '../constants/actionTypes'
 import { loadStoredState, updateStoredState } from '../utils'
 
 const defaultState = {

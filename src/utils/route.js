@@ -59,12 +59,10 @@ function getLineCode (data) {
 }
 
 function getVehicles (data) {
-  const { auth, shape, choice, lineCode } = data
-
   return bus.find({
-    auth,
+    auth: data.auth,
     tipo: 'posicaoVeiculos',
-    codigoLinha: lineCode
+    codigoLinha: data.lineCode
   }).then(res => ({
     ...data,
     vehiclesPosition: res.vs
@@ -72,7 +70,6 @@ function getVehicles (data) {
 }
 
 function buildFlagMarkers (data) {
-  const { auth, shape, choice, lineCode, vehiclesPosition } = data
   const first = data.shape[0]
   const last = data.shape[data.shape.length-1]
   const markers = [{

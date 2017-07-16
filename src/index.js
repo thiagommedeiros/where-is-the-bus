@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
+import registerServiceWorker from './registerServiceWorker'
 import { App } from './containers'
 import { history, store } from './store'
 import { Home } from './screens'
@@ -21,3 +22,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+registerServiceWorker()
