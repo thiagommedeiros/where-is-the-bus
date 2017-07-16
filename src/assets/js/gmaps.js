@@ -11,6 +11,7 @@
 /* eslint no-use-before-define: 0 */
 /* eslint no-loop-func: 0 */
 /* eslint default-case: 0 */
+/* eslint no-restricted-globals: 0 */
 
 "use strict";
 (function(root, factory) {
