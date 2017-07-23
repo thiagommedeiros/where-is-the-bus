@@ -1,6 +1,6 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import bus from 'bus-promise'
+import * as bus from 'bus-promise'
 
 import { Loader } from './'
 import { store } from '../store'
@@ -17,7 +17,7 @@ import {
   saveLines
 } from '../actions'
 
-const TOKEN = '1e7c20905fe86990c5227e7e9f00002fe908d4d4dd4d7c0091032dacd2d0e07d'
+const TOKEN = '2d5a4ee1443cb4047633305bf371c72213f6c3aefc9fe3362e42bccb3c01ebf4'
 
 Promise.resolve(TOKEN)
   .then(getGeolocation)
@@ -62,8 +62,8 @@ async function getAllLines ({ auth }) {
 
   const lines = await bus.find({
     auth,
-    tipo: 'linhas',
-    termosBusca: '*'
+    type: 'lines',
+    terms: '*'
   })
 
   store.dispatch(saveLines(lines))

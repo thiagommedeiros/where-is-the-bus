@@ -1,4 +1,4 @@
-import bus from 'bus-promise'
+import * as bus from 'bus-promise'
 
 import { store } from '../store'
 import { loader, updateSearchBox, saveShape } from '../actions'
@@ -30,8 +30,8 @@ function getRouteShapes (choice) {
 
   return bus.find({
     auth,
-    tipo: 'trajeto',
-    codigoTrajeto: choice.shapeId
+    type: 'shapes',
+    shapeId: choice.shapeId
   }).then(shape => {
     store.dispatch(saveShape(shape))
     return { auth, shape, choice }
@@ -43,17 +43,17 @@ function getLineCode (data) {
 
   return bus.find({
     auth,
-    tipo: 'linhas',
-    termosBusca: choice.routeId
+    type: 'lines',
+    terms: choice.routeId
   }).then(lines => {
     const line = lines.filter(item =>
-      item.Sentido === Number(choice.directionId) +1)
+      item.direction === Number(choice.directionId) +1)
 
     return {
       auth,
       shape,
       choice,
-      lineCode: line[0].CodigoLinha
+      lineId: line[0].lineId
     }
   })
 }
@@ -61,11 +61,11 @@ function getLineCode (data) {
 function getVehicles (data) {
   return bus.find({
     auth: data.auth,
-    tipo: 'posicaoVeiculos',
-    codigoLinha: data.lineCode
+    type: 'vehiclesPosition',
+    lineId: data.lineId
   }).then(res => ({
     ...data,
-    vehiclesPosition: res.vs
+    vehicles: res.vehicles
   }))
 }
 
@@ -73,13 +73,13 @@ function buildFlagMarkers (data) {
   const first = data.shape[0]
   const last = data.shape[data.shape.length-1]
   const markers = [{
-    lat: first.shape_pt_lat,
-    lng: first.shape_pt_lon,
+    lat: first.lat,
+    lng: first.lng,
     icon: 'flagStart'
   },
   {
-    lat: last.shape_pt_lat,
-    lng: last.shape_pt_lon,
+    lat: last.lat,
+    lng: last.lng,
     icon: 'flagFinish'
   }]
 
@@ -102,10 +102,10 @@ function buildUserMarker (data) {
 }
 
 function buildVehiclesPosition (data) {
-  const markers = data.vehiclesPosition.map(pos => ({
-    lat: pos.py,
-    lng: pos.px,
-    icon: pos.a === true ? 'busAccessible' : 'bus'
+  const markers = data.vehicles.map(bus => ({
+    lat: bus.lat,
+    lng: bus.lng,
+    icon: bus.accessible === true ? 'busAccessible' : 'bus'
   }))
   buildMarkers(markers)
 
@@ -113,10 +113,7 @@ function buildVehiclesPosition (data) {
 }
 
 function buildRoute (data) {
-  const shape = data.shape.map(pos => ([
-    pos.shape_pt_lat,
-    pos.shape_pt_lon
-  ]))
+  const shape = data.shape.map(pos => ([ pos.lat, pos.lng ]))
   buildPolyline(shape)
 
   const middle = Math.round(shape.length / 2)
@@ -177,7 +174,6 @@ export function buildRoutePath (choice) {
   .then(updateSearchState)
   .then(startRouteRefresh)
   .catch(err => {
-    console.log(err)
     alert('Ocorreu um erro! Tente novamente.')
     store.dispatch(loader({ visible: false }))
   })
