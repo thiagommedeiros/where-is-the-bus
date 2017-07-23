@@ -1,12 +1,12 @@
 {
-  "name": "where-is-the-bus",
+  "name": "cade-o-busao",
   "version": "1.0.0",
   "author": "Thiago M. Medeiros",
-  "description": "An app to find buses",
+  "description": "Web app para encontrar ônibus em São Paulo",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thiagommedeiros/where-is-the-bus.git"
+    "url": "git+https://github.com/thiagommedeiros/cade-o-busao.git"
   },
   "homepage": ".",
   "dependencies": {
@@ -17,8 +17,8 @@
     "babel-jest": "20.0.3",
     "babel-loader": "7.0.0",
     "babel-preset-react-app": "^3.0.1",
-    "babel-runtime": "6.23.0",
     "bus-promise": "^1.1.4",
+    "babel-runtime": "6.23.0",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "chalk": "1.1.3",
     "css-loader": "0.28.4",
