@@ -1,8 +1,7 @@
 import * as bus from 'bus-promise'
 
 import { store } from '../store'
-import { loader, updateSearchBox, saveShape } from '../actions'
-import { centerMap, buildMarkers, buildPolyline, removeMarkers } from './'
+import { loader, updateSearchState, saveShape } from '../actions'
 
 const hasShapeInStorage = (shapeId, storagedShapes) =>
   storagedShapes.find(item =>
@@ -124,8 +123,8 @@ function buildRoute (data) {
   return data
 }
 
-function updateSearchState (data) {
-  store.dispatch(updateSearchBox({ searchState: data }))
+function updateSearch (data) {
+  store.dispatch(updateSearchState({ search: data }))
 
   return data
 }

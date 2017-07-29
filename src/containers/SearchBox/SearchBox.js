@@ -68,7 +68,7 @@ class SearchBox extends Component {
           searchText={this.state.searchText}
           maxSearchResults={10}
           onUpdateInput={searchText => this.handleUpdateInput(searchText)}
-          dataSource={this.props.searchBoxState.autocompleteData}
+          dataSource={this.props.searchState.autocompleteData}
           dataSourceConfig={dataSourceConfig}
           filter={this.filterBuses}
           fullWidth={true}
@@ -94,7 +94,7 @@ class SearchBox extends Component {
 }
 
 const mapStateToProps = state => ({
-  searchBoxState: state.searchBoxState,
+  searchState: state.searchState,
   searchesState: state.storagedState.searches
 })
 

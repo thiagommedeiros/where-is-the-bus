@@ -12,7 +12,7 @@ import {
 import {
   sptransAuth,
   loader,
-  updateSearchBox,
+  updateSearchState,
   updateGeolocation,
   saveLines
 } from '../actions'
@@ -79,7 +79,7 @@ function buildAutocomplete (lines) {
     directionId: item.direction
   })
   const autocompleteData = lines.map(buildData)
-  store.dispatch(updateSearchBox({ autocompleteData }))
+  store.dispatch(updateSearchState({ autocompleteData }))
   store.dispatch(loader({ visible: false }))
 }
 

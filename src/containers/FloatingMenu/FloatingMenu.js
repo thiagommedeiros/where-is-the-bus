@@ -12,7 +12,7 @@ function FloatingMenu (props) {
   const classNames = () => {
     return [
       props.loader.visible === true && props.loader.spin === 'small' ? styles.hideRefreshButton : '',
-      !props.searchState.shape ? styles.hideRefreshButton : ''
+      !props.lastSearch.vehicles.length ? styles.hideRefreshButton : ''
     ].join(' ')
   }
 
@@ -38,7 +38,7 @@ function FloatingMenu (props) {
 
 const mapStateToProps = state => ({
   loader: state.loaderState,
-  searchState: state.searchBoxState.searchState
+  lastSearch: state.searchState.lastSearch
 })
 
 export default connect(mapStateToProps)(FloatingMenu)
