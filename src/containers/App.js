@@ -14,7 +14,8 @@ import {
   loader,
   updateSearchState,
   updateGeolocation,
-  saveLines
+  saveLines,
+  saveStops
 } from '../actions'
 
 const TOKEN = '2d5a4ee1443cb4047633305bf371c72213f6c3aefc9fe3362e42bccb3c01ebf4'
@@ -23,6 +24,8 @@ Promise.resolve(TOKEN)
   .then(getGeolocation)
   .then(buildUserMarker)
   .then(authSPTrans)
+  .then(getAllStops)
+  .then(buildStopsMarkers)
   .then(getAllLines)
   .then(buildAutocomplete)
 
@@ -52,6 +55,48 @@ async function buildUserMarker ({ lat, lng }) {
 async function authSPTrans () {
   const auth = await bus.auth(TOKEN)
   store.dispatch(sptransAuth(auth))
+
+  return { auth }
+}
+
+async function getAllStops ({ auth }) {
+  const storagedStops = store.getState().storagedState.stops
+  if (storagedStops.length) return { auth, stops: storagedStops }
+
+  const stops = await bus.find({
+    auth,
+    type: 'stops',
+    terms: '*'
+  })
+  store.dispatch(saveStops(stops))
+
+  return { auth, stops }
+}
+
+async function buildStopsMarkers ({ auth, stops }) {
+  const busStops = stops.map(item => ({
+    lat: Number(item.lat),
+    lng: Number(item.lng),
+    icon: 'busStop'
+  }))
+
+  const stopsMarkers = Map.createMarkers(busStops)
+  Map.addMarkers(stopsMarkers)
+  Map.setVisible(stopsMarkers, false)
+
+  Map.bindEvent('zoom_changed', () => {
+    console.log('zoom changed', Map.getZoom())
+    if (Map.getZoom() < 16) Map.setVisible(stopsMarkers, false)
+  })
+
+  Map.bindEvent('tilesloaded', () => {
+    const zoom = Map.getZoom()
+    const bounds = Map.getBounds()
+
+    stopsMarkers.forEach(stop => {
+      if (bounds.contains(stop.position) && zoom >= 16) Map.setVisible(stop)
+    })
+  })
 
   return { auth }
 }
