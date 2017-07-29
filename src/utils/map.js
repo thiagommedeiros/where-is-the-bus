@@ -21,7 +21,7 @@ const markerIcons = {
   flagFinish
 }
 
-export function buildMap (lat, lng, zoom=13) {
+export function build ({ lat, lng, zoom=13 }) {
   window.map = new GMaps({
     div: '#map',
     lat: Number(lat),
@@ -32,32 +32,32 @@ export function buildMap (lat, lng, zoom=13) {
   })
 }
 
-export function removeMarkers (callback) {
-  return window.map.removeMarkers()
-}
-
-export function buildMarkers (markers, remove=false) {
+export function createMarkers (markers) {
   if (markers.length) {
-    if (remove) {
-      window.map.removeMarkers()
-    }
-    markers.forEach(marker => {
-      window.map.addMarker({
+    return markers.map(marker =>
+      window.map.createMarker({
         lat: Number(marker.lat),
         lng: Number(marker.lng),
-        icon: markerIcons[marker.icon]
-      })
-    })
+        icon: markerIcons[marker.icon],
+        zIndex: marker.zIndex || 0
+      }))
   }
+}
+
+export function addMarkers (markers) {
+  if (markers.length) window.map.addMarkers(markers)
+}
+
+export function removeMarkers (markerName='') {
+  window.map.removeMarkers(markerName)
 }
 
 export function removePolylines () {
   window.map.removePolylines()
 }
 
-export function buildPolyline (path) {
+export function drawPolyline (path) {
   if (path.length) {
-    removePolylines()
     window.map.drawPolyline({
       path,
       strokeColor: '#00bcd4',
@@ -81,8 +81,33 @@ export async function centerMap (lat=0, lng=0) {
           lat: geo.coords.latitude,
           lng: geo.coords.longitude
         }))
-        centerMap()
+        centerMap(pos.lat, pos.lng)
       }
     })
   })
+}
+
+export function bindEvent (event, fn) {
+  window.google.maps.event.addListener(window.map.map, event, fn)
+}
+
+export function setVisible (markers, option=true) {
+  if (markers instanceof Array) {
+    markers.forEach(marker => marker.setVisible(option))
+    return
+  }
+
+  markers.setVisible(option)
+}
+
+export function getZoom () {
+  return window.map.getZoom()
+}
+
+export function getBounds () {
+  return window.map.getBounds()
+}
+
+export function setZoom (zoom) {
+  return window.map.setZoom(zoom)
 }

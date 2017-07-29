@@ -4,11 +4,8 @@ import * as bus from 'bus-promise'
 
 import { Loader } from './'
 import { store } from '../store'
-import {
-  geolocation,
-  buildMap,
-  buildMarkers
-} from '../utils'
+import { geolocation } from '../utils/geolocation'
+import * as Map from '../utils/map'
 import {
   sptransAuth,
   loader,
@@ -37,19 +34,21 @@ async function getGeolocation () {
   const lat = pos ? pos.coords.latitude : '-23.5498772'
   const lng = pos? pos.coords.longitude : '-46.6361809'
 
-  buildMap(lat, lng)
+  Map.build({ lat, lng, zoom: 16})
   store.dispatch(updateGeolocation({ lat, lng }))
 
   return { lat, lng }
 }
 
 async function buildUserMarker ({ lat, lng }) {
-  const markers = [{
+  const marker = [{
     lat: Number(lat),
     lng: Number(lng),
-    icon: 'user'
+    icon: 'user',
+    zIndex: 1
   }]
-  buildMarkers(markers)
+  const userMarker = Map.createMarkers(marker)
+  Map.addMarkers(userMarker)
 }
 
 async function authSPTrans () {

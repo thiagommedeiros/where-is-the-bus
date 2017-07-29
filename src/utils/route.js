@@ -2,6 +2,7 @@ import * as bus from 'bus-promise'
 
 import { store } from '../store'
 import { loader, updateSearchState, saveShape } from '../actions'
+import * as Map from './map'
 
 const hasShapeInStorage = (shapeId, storagedShapes) =>
   storagedShapes.find(item =>
@@ -64,8 +65,27 @@ function getVehicles (data) {
     lineId: data.lineId
   }).then(res => ({
     ...data,
-    vehicles: res.vehicles
+    vehicles: res.vehicles || []
   }))
+}
+
+function buildVehiclesPosition (data) {
+  if (data.vehicles.length <= 0) {
+    alert('Nenhum ônibus circulando nesta linha.')
+    return data
+  }
+
+  const markers = data.vehicles.map(bus => ({
+    lat: bus.lat,
+    lng: bus.lng,
+    icon: bus.accessible === true ? 'busAccessible' : 'bus'
+  }))
+
+  Map.removeMarkers(window.busMarkers)
+  window.busMarkers = Map.createMarkers(markers)
+  Map.addMarkers(window.busMarkers)
+
+  return data
 }
 
 function buildFlagMarkers (data) {
@@ -74,49 +94,31 @@ function buildFlagMarkers (data) {
   const markers = [{
     lat: first.lat,
     lng: first.lng,
-    icon: 'flagStart'
+    icon: 'flagStart',
+    zIndex: 1
   },
   {
     lat: last.lat,
     lng: last.lng,
-    icon: 'flagFinish'
+    icon: 'flagFinish',
+    zIndex: 1
   }]
 
-  removeMarkers()
-  buildMarkers(markers)
-
-  return data
-}
-
-function buildUserMarker (data) {
-  const pos = store.getState().userState.geolocation
-  const marker = [{
-    lat: pos.lat,
-    lng: pos.lng,
-    icon: 'user'
-  }]
-  buildMarkers(marker)
-
-  return data
-}
-
-function buildVehiclesPosition (data) {
-  const markers = data.vehicles.map(bus => ({
-    lat: bus.lat,
-    lng: bus.lng,
-    icon: bus.accessible === true ? 'busAccessible' : 'bus'
-  }))
-  buildMarkers(markers)
+  Map.removeMarkers(window.flagMarkers)
+  window.flagMarkers = Map.createMarkers(markers)
+  Map.addMarkers(window.flagMarkers)
 
   return data
 }
 
 function buildRoute (data) {
   const shape = data.shape.map(pos => ([ pos.lat, pos.lng ]))
-  buildPolyline(shape)
-
   const middle = Math.round(shape.length / 2)
-  centerMap(shape[middle][0], shape[middle][1])
+
+  Map.removePolylines()
+  Map.drawPolyline(shape)
+  Map.centerMap(shape[middle][0], shape[middle][1])
+  Map.setZoom(13)
 
   store.dispatch(loader({ visible: false }))
 

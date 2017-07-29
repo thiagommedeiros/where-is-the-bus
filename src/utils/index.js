@@ -1,11 +1,5 @@
-export { geolocation } from './geolocation'
-export { removeAccents } from './removeAccents'
-export { loadStoredState, updateStoredState } from './storage'
-export { buildRoutePath, refreshRoute } from './route'
-export {
-  buildMap,
-  buildMarkers,
-  buildPolyline,
-  centerMap,
-  removeMarkers
-} from './map'
+export * from './geolocation'
+export * from './removeAccents'
+export * from './storage'
+export * from './route'
+export * from './map'
