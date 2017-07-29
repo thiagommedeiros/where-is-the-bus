@@ -6,7 +6,7 @@ import { centerMap, buildMarkers, buildPolyline, removeMarkers } from './'
 
 const hasShapeInStorage = (shapeId, storagedShapes) =>
   storagedShapes.find(item =>
-    item.find(shape => shape.shape_id === shapeId))
+    item.find(shape => shape.shapeId === shapeId))
 
 function getRouteShapes (choice) {
   const auth = store.getState().sptransState.auth
@@ -44,7 +44,7 @@ function getLineCode (data) {
   return bus.find({
     auth,
     type: 'lines',
-    terms: choice.routeId
+    terms: choice.displaySign
   }).then(lines => {
     const line = lines.filter(item =>
       item.direction === Number(choice.directionId) +1)

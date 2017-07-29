@@ -73,10 +73,10 @@ async function getAllLines ({ auth }) {
 
 function buildAutocomplete (lines) {
   const buildData = item => ({
-    text: `${item.route_id} - ${item.trip_headsign}`,
-    shapeId: item.shape_id,
-    routeId: item.route_id,
-    directionId: item.direction_id
+    text: `${item.displaySign} - ${item.mainTerminal}`,
+    shapeId: item.shapeId,
+    displaySign: item.displaySign,
+    directionId: item.direction
   })
   const autocompleteData = lines.map(buildData)
   store.dispatch(updateSearchBox({ autocompleteData }))
