@@ -21,7 +21,7 @@ const markerIcons = {
   flagFinish
 }
 
-export function build ({ lat, lng, zoom=13 }) {
+export function build ({ lat, lng, zoom=14 }) {
   window.map = new GMaps({
     div: '#map',
     lat: Number(lat),
@@ -39,7 +39,8 @@ export function createMarkers (markers) {
         lat: Number(marker.lat),
         lng: Number(marker.lng),
         icon: markerIcons[marker.icon],
-        zIndex: marker.zIndex || 0
+        zIndex: marker.zIndex || 0,
+        infoWindow: marker.infoWindow 
       }))
   }
 }
@@ -74,6 +75,7 @@ export async function centerMap (lat=0, lng=0) {
   }
 
   const pos = store.getState().userState.geolocation
+
   window.map.setCenter(pos.lat, pos.lng, () => {
     geolocation().then(geo => {
       if (geo.coords.latitude !== pos.lat && geo.coords.longitude !== pos.lng) {

@@ -76,15 +76,19 @@ async function buildStopsMarkers ({ auth, stops }) {
   const busStops = stops.map(item => ({
     lat: Number(item.lat),
     lng: Number(item.lng),
-    icon: 'busStop'
+    icon: 'busStop',
+    infoWindow: {
+      content: `
+        ${item.name}<br>
+        ${item.address}
+      `
+    }
   }))
 
   const stopsMarkers = Map.createMarkers(busStops)
   Map.addMarkers(stopsMarkers)
-  Map.setVisible(stopsMarkers, false)
 
   Map.bindEvent('zoom_changed', () => {
-    console.log('zoom changed', Map.getZoom())
     if (Map.getZoom() < 16) Map.setVisible(stopsMarkers, false)
   })
 
@@ -93,7 +97,11 @@ async function buildStopsMarkers ({ auth, stops }) {
     const bounds = Map.getBounds()
 
     stopsMarkers.forEach(stop => {
-      if (bounds.contains(stop.position) && zoom >= 16) Map.setVisible(stop)
+      if (bounds.contains(stop.position) && zoom >= 16) {
+        Map.setVisible(stop)
+      } else {
+        Map.setVisible(stop, false)
+      }
     })
   })
 
@@ -109,7 +117,6 @@ async function getAllLines ({ auth }) {
     type: 'lines',
     terms: '*'
   })
-
   store.dispatch(saveLines(lines))
 
   return lines

@@ -25,7 +25,7 @@ function getRouteShapes (choice) {
   store.dispatch(loader({
     visible: true,
     spin: 'big',
-    text: 'Montando este trajeto pela primeira vez, isso pode levar alguns minutos...'
+    text: 'Montando este trajeto pela primeira vez, isso pode demorar...'
   }))
 
   return bus.find({
@@ -139,8 +139,10 @@ function startRouteRefresh (data) {
   const time = !data ? 0 : 15000
 
   if (!data) {
-    data = store.getState().searchBoxState.searchState
+    data = store.getState().searchState.lastSearch
   }
+
+  if (data.vehicles.length <= 0) return
 
   stopRefresh()
   setTimeout(() => store.dispatch(loader({ visible: false })), 1000)
@@ -149,10 +151,9 @@ function startRouteRefresh (data) {
     store.dispatch(loader({ visible: true, spin: 'small' }))
     Promise.resolve(data)
     .then(getVehicles)
-    .then(buildFlagMarkers)
-    .then(buildUserMarker)
     .then(buildVehiclesPosition)
-    .then(updateSearchState)
+    .then(buildFlagMarkers)
+    .then(updateSearch)
     .then(startRouteRefresh)
   }, time)
 }
@@ -161,20 +162,20 @@ export function refreshRoute () {
   startRouteRefresh()
 }
 
-export function buildRoutePath (choice) {
+export function buildRouteShape (choice) {
   stopRefresh()
 
   Promise.resolve(choice)
   .then(getRouteShapes)
   .then(getLineCode)
   .then(getVehicles)
-  .then(buildFlagMarkers)
-  .then(buildUserMarker)
   .then(buildVehiclesPosition)
+  .then(buildFlagMarkers)
   .then(buildRoute)
-  .then(updateSearchState)
+  .then(updateSearch)
   .then(startRouteRefresh)
   .catch(err => {
+    console.log(err)
     alert('Ocorreu um erro! Tente novamente.')
     store.dispatch(loader({ visible: false }))
   })

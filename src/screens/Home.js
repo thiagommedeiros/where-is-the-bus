@@ -1,6 +1,6 @@
 import React from 'react'
 import { HeaderBar, SearchBox, Map, FloatingMenu } from '../containers'
-import { buildRoutePath } from '../utils'
+import { buildRouteShape } from '../utils'
 
 function Home (props) {
   return (
@@ -8,7 +8,7 @@ function Home (props) {
       <HeaderBar>
         <SearchBox
           inputPlaceholder="Qual ônibus deseja encontrar?"
-          onNewRequest={choice => buildRoutePath(choice) }
+          onNewRequest={choice => buildRouteShape(choice) }
         />
       </HeaderBar>
       <FloatingMenu />
