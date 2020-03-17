@@ -35,7 +35,7 @@
     "fs-extra": "3.0.1",
     "gh-pages": "1.0.0",
     "html-webpack-plugin": "2.29.0",
-    "jest": "21.0.0",
+    "jest": "24.0.0",
     "material-ui": "0.18.0",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.0.0",
@@ -58,7 +58,7 @@
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.3",
     "url-loader": "0.5.9",
-    "webpack": "2.6.1",
+    "webpack": "4.0.0",
     "webpack-dev-server": "3.0.0",
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "2.0.3"
